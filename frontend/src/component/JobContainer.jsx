@@ -39,12 +39,12 @@ export default function JobContainer({search}) {
   const dispatch = useDispatch();
   
   React.useEffect(() => {
-    if (data && data) {
+    if (data && data.jobs) {
       console.log("usegetallljobs11111111111111111................",data);
       
-      setProducts(data)  
+      setProducts(data.jobs)  
       // setTotalPages(data.pages)  
-      dispatch(setjob(data));  
+      dispatch(setjob(data.jobs));  
     }
   }, [data, dispatch]); 
 
