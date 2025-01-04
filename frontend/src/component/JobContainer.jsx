@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useGetAllJobsQuery } from "../../Redux/auth/job.api";
 import { setjob } from "../../Redux/Feature/job.slice";
 
-export default function JobContainer({search}) {
+export default function JobContainer({ search }) {
   const [products, setProducts] = React.useState([]);
   const [categories, setCategories] = React.useState("");
   const [types, setTypes] = React.useState("");
@@ -25,46 +25,51 @@ export default function JobContainer({search}) {
   const [locationOpen, setLocationOpen] = React.useState(false);
 
   const { category } = useSelector((v) => v.category);
-  const {data,error,isLoading} = useGetAllJobsQuery(); 
-  console.log("usegetallljobs222222222222222222................",data ,"error.......",error,"isloading.....",isLoading);
+  const { data, error, isLoading } = useGetAllJobsQuery({
+    search,
+    limit,
+    types,
+    location,
+    page
+  });  
 
-  if(isLoading){
-    return <h1>Loading</h1>
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+
+    if (data && data.jobs) {
+      setProducts(data.jobs);
+      setTotalPages(data.pages);
+      dispatch(setjob(data.jobs));
+      console.log("................", data?.jobs);
+    }
+    // if (error) {
+    //   console.error('API Error:', error);
+    // } else {
+    //   console.log('Fetched Data:', data && data.jobs);
+    // }
+  }, [data, dispatch]);
+
+  if (isLoading) {
+    return <h1>Loading</h1>;
   }
 
-  if(error){
-    return <h1>Something went wrong</h1>
-  }  
-   
-  const dispatch = useDispatch();
-  
-  React.useEffect(() => {
-    if (data && data.jobs) {
-      console.log("usegetallljobs11111111111111111................",data);
-      
-      setProducts(data.jobs)  
-      // setTotalPages(data.pages)  
-      dispatch(setjob(data.jobs));  
-    }
-  }, [data, dispatch]); 
+  if (error) {
+    return <h1>Something went wrong</h1>;
+  }
 
   const handleCategoryChange = (event) => {
     setCategories(event.target.value);
-    console.log("category",event.target.value);
-    
+    console.log("category", event.target.value);
   };
   const handleLocationChange = (event) => {
     setLocation(event.target.value);
-    console.log("location",event.target.value);
-    
+    console.log("location", event.target.value);
   };
   const handleTypesChange = (event) => {
     setTypes(event.target.value);
-    console.log("types",event.target.value);
-
+    console.log("types", event.target.value);
   };
-
-
 
   const handleLocationClose = () => {
     setLocationOpen(false);
@@ -84,7 +89,6 @@ export default function JobContainer({search}) {
   const handleLocationOpen = () => {
     setLocationOpen(true);
   };
-  
 
   return (
     <>
@@ -115,7 +119,7 @@ export default function JobContainer({search}) {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                {category.map((cat) => (
+                {category?.map((cat) => (
                   <MenuItem value={cat.newCategory._id}>
                     {cat.newCategory.categoryName}
                   </MenuItem>
@@ -204,7 +208,7 @@ export default function JobContainer({search}) {
         </div>
 
         <div className="card-container">
-          <JobCard products={products}/>
+          <JobCard products={products} />
         </div>
       </div>
       {/* pagination */}
@@ -216,7 +220,12 @@ export default function JobContainer({search}) {
           justifyContent: "center",
         }}
       >
-        <Pagination count={2} size="large" />
+        <Pagination
+          count={totalPages}
+          page={page}
+          onChange={(e, value) => setPage(value)}
+          size="large"
+        />{" "}
       </div>
     </>
   );

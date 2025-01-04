@@ -7,7 +7,10 @@ export const jobApi = createApi({
   }),
   endpoints: (builder) => ({
     getAllJobs: builder.query({
-      query: () => "/job/all"
+      query: (data) => ({
+        url: `/job/all?search=${data.search}&limit=${data.limit}&types=${data.types}&location=${data.location}&page=${data.page}`,
+        method: "GET",
+      })
     }),
     getsingleJob: builder.query({
       query: (id) => ({

@@ -5,11 +5,37 @@ import Job from "../model/job.model.js";
 export const getAlljobs = async (req, res, next) => {
   
   try {
+
+    const {search,location,types,page = 1,limit = 10} = req.query  
     
-    const jobs = await Job.find({});
+    //build query obj
+    let query = {};
+    if (search) {
+      query.position = { $regex: search.trim(), $options: 'i'};//case insensitivity search
+    }
+
+    if (location) {
+      query.location = { $regex: location.trim(), $options: 'i' }; // Case-insensitive location search
+    }
+    if (types) {
+      query.status = { $in: types.trim() }; // Allow searching multiple types
+    }    
+
+    //pagination
+    const skip = (page - 1) * limit;
+
+    //execution of query with sorting and pagination
+    const jobs = await Job.find(query).skip(skip).limit(parseInt(limit));    
     
+    //get total count for pagination
+    const total = await Job.countDocuments(query)
+        
     res.status(200).json({
       jobs:jobs,
+      success:true,
+      page:parseInt(page),
+      total,
+      pages:Math.ceil(total/limit)
     });
   } catch (error) {
     next(error);
