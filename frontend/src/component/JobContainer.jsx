@@ -14,21 +14,21 @@ import { setjob } from "../../Redux/Feature/job.slice";
 export default function JobContainer({ search }) {
   const [products, setProducts] = React.useState([]);
   const [categories, setCategories] = React.useState("");
-  const [types, setTypes] = React.useState("");
+  const [status, setStatus] = React.useState("");
   const [location, setLocation] = React.useState("");
   const [page, setPage] = React.useState(1);
   const [limit, setLimit] = React.useState(10);
   const [totalPages, setTotalPages] = React.useState(0);
 
   const [categoryOpen, setCategoryOpen] = React.useState(false);
-  const [typesOpen, setTypesOpen] = React.useState(false);
+  const [statusOpen, setStatusOpen] = React.useState(false);
   const [locationOpen, setLocationOpen] = React.useState(false);
 
   const { category } = useSelector((v) => v.category);
   const { data, error, isLoading } = useGetAllJobsQuery({
     search,
     limit,
-    types,
+    status,
     location,
     page
   });  
@@ -41,7 +41,6 @@ export default function JobContainer({ search }) {
       setProducts(data.jobs);
       setTotalPages(data.pages);
       dispatch(setjob(data.jobs));
-      console.log("................", data?.jobs);
     }
     // if (error) {
     //   console.error('API Error:', error);
@@ -66,9 +65,9 @@ export default function JobContainer({ search }) {
     setLocation(event.target.value);
     console.log("location", event.target.value);
   };
-  const handleTypesChange = (event) => {
-    setTypes(event.target.value);
-    console.log("types", event.target.value);
+  const handleStatusChange = (event) => {
+    setStatus(event.target.value);
+    console.log("status", event.target.value);
   };
 
   const handleLocationClose = () => {
@@ -77,14 +76,14 @@ export default function JobContainer({ search }) {
   const handleCategoryOpen = () => {
     setCategoryOpen(true);
   };
-  const handleTypesOpen = () => {
-    setTypesOpen(true);
+  const handleStatusOpen = () => {
+    setStatusOpen(true);
   };
   const handleCategoryClose = () => {
     setCategoryOpen(false);
   };
-  const handleTypesClose = () => {
-    setTypesOpen(false);
+  const handleStatusClose = () => {
+    setStatussOpen(false);
   };
   const handleLocationOpen = () => {
     setLocationOpen(true);
@@ -128,10 +127,10 @@ export default function JobContainer({ search }) {
             </FormControl>
           </Box>
 
-          {/* Types */}
+          {/* status */}
           <Box sx={{ width: 250 }}>
-            <Button sx={{ display: "block", mt: 2 }} onClick={handleTypesOpen}>
-              Filter Job By Types
+            <Button sx={{ display: "block", mt: 2 }} onClick={handleStatusOpen}>
+              Filter Job By status
             </Button>
             <FormControl sx={{ m: 1, minWidth: 200 }}>
               <InputLabel id="demo-controlled-open-select-label">
@@ -140,18 +139,18 @@ export default function JobContainer({ search }) {
               <Select
                 labelId="demo-controlled-open-select-label"
                 id="demo-controlled-open-select"
-                open={typesOpen}
-                onClose={handleTypesClose}
-                onOpen={handleTypesOpen}
-                value={types}
-                label="types"
-                onChange={handleTypesChange}
+                open={statusOpen}
+                onClose={handleStatusClose}
+                onOpen={handleStatusOpen}
+                value={status}
+                label="status"
+                onChange={handleStatusChange}
               >
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value={"fullTime"}>Full-Time</MenuItem>
-                <MenuItem value={"partTime"}>Part-Time</MenuItem>
+                <MenuItem value={"full-Time"}>Full-Time</MenuItem>
+                <MenuItem value={"part-Time"}>Part-Time</MenuItem>
                 <MenuItem value={"internship"}>Internship</MenuItem>
               </Select>
             </FormControl>

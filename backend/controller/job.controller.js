@@ -6,7 +6,7 @@ export const getAlljobs = async (req, res, next) => {
   
   try {
 
-    const {search,location,types,page = 1,limit = 10} = req.query  
+    const {search,location,status,page = 1,limit = 10} = req.query  
     
     //build query obj
     let query = {};
@@ -17,8 +17,8 @@ export const getAlljobs = async (req, res, next) => {
     if (location) {
       query.location = { $regex: location.trim(), $options: 'i' }; // Case-insensitive location search
     }
-    if (types) {
-      query.status = { $in: types.trim() }; // Allow searching multiple types
+    if (status) {
+      query.status = status; // Allow searching  status
     }    
 
     //pagination

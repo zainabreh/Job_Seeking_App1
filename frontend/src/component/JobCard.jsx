@@ -37,7 +37,6 @@ const PlusIcon = createSvgIcon(
 );
 
 export default function JobCard({products}) {  
-console.log("Products job card....",products);
 
   return (
     <>
