@@ -1,12 +1,13 @@
+import mongoose from "mongoose";
 import categoryModel from "../model/category.model.js";
-import Job from "../model/job.model.js";
+import jobModel from "../model/job.model.js";
 
 
-export const getAlljobs = async (req, res, next) => {
+export const getAllJobs = async (req, res, next) => {
   
   try {
 
-    const {search,location,status,page = 1,limit = 10} = req.query  
+    const {search,location,status,page = 1,limit = 10,category=''} = req.query      
     
     //build query obj
     let query = {};
@@ -14,21 +15,25 @@ export const getAlljobs = async (req, res, next) => {
       query.position = { $regex: search.trim(), $options: 'i'};//case insensitivity search
     }
 
+    if(category) {
+      query.category = new mongoose.Types.ObjectId(category)
+    }
+
     if (location) {
       query.location = { $regex: location.trim(), $options: 'i' }; // Case-insensitive location search
     }
     if (status) {
-      query.status = status; // Allow searching  status
+      query.status = { $regex: status.trim(), $options: 'i' }; // Allow searching  status
     }    
 
     //pagination
     const skip = (page - 1) * limit;
 
     //execution of query with sorting and pagination
-    const jobs = await Job.find(query).skip(skip).limit(parseInt(limit));    
+    const jobs = await jobModel.find(query).skip(skip).limit(parseInt(limit));    
     
     //get total count for pagination
-    const total = await Job.countDocuments(query)
+    const total = await jobModel.countDocuments(query)
         
     res.status(200).json({
       jobs:jobs,

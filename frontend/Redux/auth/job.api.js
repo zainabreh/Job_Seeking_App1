@@ -8,11 +8,11 @@ export const jobApi = createApi({
   endpoints: (builder) => ({
     getAllJobs: builder.query({
       query: (data) => ({
-        url: `/job/all?search=${data.search}&limit=${data.limit}&types=${data.types}&location=${data.location}&page=${data.page}`,
+        url: `/job/all?search=${data.search}&limit=${data.limit}&status=${data.status}&location=${data.location}&page=${data.page}&category=${data.category?data.category:''}`,
         method: "GET",
       })
     }),
-    getsingleJob: builder.query({
+    getSingleJob: builder.query({
       query: (id) => ({
         url: `/job/singleJob/${id}`,
         method: "GET",
@@ -51,7 +51,7 @@ export const jobApi = createApi({
 export const {
   useGetAllJobsQuery,
   useGetMyJobsQuery,
-  useGetsingleJobQuery,
+  useGetSingleJobQuery,
   useCreateJobMutation,
   useDeleteJobMutation,
   useUpdateJobMutation,

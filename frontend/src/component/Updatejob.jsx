@@ -3,7 +3,7 @@ import * as yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.css";
 import React, { useEffect, useState } from "react";
-import { useGetsingleJobQuery, useUpdateJobMutation } from "../../Redux/auth/job.api";
+import { useGetSingleJobQuery, useUpdateJobMutation } from "../../Redux/auth/job.api";
 import { useDispatch, useSelector } from "react-redux";
 import { setjob } from "../../Redux/Feature/job.slice";
 import { useNavigate, useParams } from "react-router-dom";
@@ -17,7 +17,7 @@ const Updatejob = () => {
 
   const [updateJob, { data: createData, error: createError, isLoading }] = useUpdateJobMutation();
 
-  const {data} =useGetsingleJobQuery(id)  
+  const {data} =useGetSingleJobQuery(id)  
 
   const navigate = useNavigate();
   const dispatch = useDispatch(); 

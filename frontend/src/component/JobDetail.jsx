@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
 import {  useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import {useGetsingleJobQuery } from "../../Redux/auth/job.api";
+import {useGetSingleJobQuery } from "../../Redux/auth/job.api";
 
 const JobDetail = () => {
   const {user,isAuthenticated} = useSelector(v=>v.auth)
   const [singleJob,setSingleJob] = useState()
   const {id} = useParams()
-  const {data,error,isLoading,refetch} = useGetsingleJobQuery(id)   
+  const {data,error,isLoading,refetch} = useGetSingleJobQuery(id)   
 
   useEffect(() => {
-    if (data) {
+    if (data && data) {
       refetch()
       setSingleJob(data.job);
     }
   }, [data]);
+
+  
     
   const deadline = singleJob && new Date(singleJob.deadline)
   const formattedDeadline = deadline && deadline.toLocaleString('en-US',{

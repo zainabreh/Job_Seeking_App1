@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
-import { useGetsingleJobQuery } from "../../Redux/auth/job.api";
+import { useGetSingleJobQuery } from "../../Redux/auth/job.api";
 import { useDispatch, useSelector } from "react-redux";
 import { useCreateApplicationMutation } from "../../Redux/auth/application.api";
 import { addApplication } from "../../Redux/Feature/application.slice";
@@ -16,7 +16,7 @@ const JobApplicationForm = () => {
   const dispatch = useDispatch()    
 
 
-  const {data} = useGetsingleJobQuery(id)
+  const {data} = useGetSingleJobQuery(id)
 
   const {user} = useSelector((v)=>v.auth.user)
   
