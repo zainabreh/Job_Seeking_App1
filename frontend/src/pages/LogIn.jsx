@@ -4,6 +4,7 @@ import * as yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginUserMutation } from "../../Redux/auth/auth.api";
 import { useDispatch } from "react-redux";
+import { setIsAuthenticated, setUserInfo } from "../../Redux/Feature/auth.slice";
 
 const LogIn = () => {
   const [loginUser,{data,isLoading,error}] = useLoginUserMutation()
@@ -22,16 +23,15 @@ const LogIn = () => {
       }),
       onSubmit: async (v) => {
         try {
-          const user = await loginUser(v);
-          console.log(user);
+          await loginUser(v);
           
-          if (user.data.success) {
-            setApimsg(user.data.message);
+          // if (user.success) {
+          //   setApimsg(user.message);
             
-            navigate('/')
-          } else {
-            setApimsg({ success: false, message: user.data.message });
-          }
+          //   navigate('/')
+          // } else {
+          //   setApimsg({ success: false, message: user.message });
+          // }
         } catch (error) {
           console.log(error);
           

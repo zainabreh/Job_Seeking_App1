@@ -34,6 +34,10 @@ export const signup = async (req, res, next) => {
 
 export const login = async (req, res, next) => {
   let loguser = req.body;
+  console.log("body..",req.body);
+  console.log("header..",req.headers);
+  console.log("cookies..",req.cookies);
+  
 
   try {
     if (!loguser.email) return next(new Error("provide Email"));
@@ -56,15 +60,15 @@ export const login = async (req, res, next) => {
       },
       process.env.TOKEN,
       { expiresIn: "2h" }
-    );
+    );    
 
-    res.cookie("auth", jwt_key, { maxAge: 9000000, httpOnly: true }).json({
+    res.cookie("auth", jwt_key, { maxAge: 9000000, httpOnly: true, sameSite: 'none', secure:true}).json({
       success:true,
       message: "User LogIn",
       user,
     });
   } catch (error) {
-    next(error);
+    next(error);0
   }
 };
 

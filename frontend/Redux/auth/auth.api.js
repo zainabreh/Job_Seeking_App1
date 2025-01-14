@@ -5,7 +5,7 @@ export const authApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://127.0.0.1:8000",
     credentials: "include",
-    mode: "cors",
+    // mode: "cors",
   }),
   endpoints: (builder) => ({
     registerUser: builder.mutation({
@@ -24,19 +24,27 @@ export const authApi = createApi({
       }),
       async onQueryStarted(arg,{dispatch,queryFulfilled}){
         try {
-            await queryFulfilled
-            dispatch(authApi.endpoints.getprofile.initiate(null))
+            const {data} = await queryFulfilled            
+            // dispatch(authApi.endpoints.getProfile.initiate(null))
+            if (data.success) {
+              const profileResult = await dispatch(authApi.endpoints.getProfile.initiate(null)).unwrap();
+              console.log("Fetched profile:", profileResult);
+            } else {
+              console.error("Login failed:", data.message);
+            }
         } catch (error) {
-            console.log("qqqqqqqqqqqqqqqqqqqqq");
+          console.error("Error during login or fetching profile:", error);
             
         }
       }
     }),
-    getprofile: builder.query({
+    getProfile: builder.query({
       query: ()=> 'getUserProfile',
       async onQueryStarted(arg,{dispatch,queryFulfilled}){
           try {
               const {data} = await queryFulfilled
+              console.log("profile query,,,,,,,,,,,",data);
+              
               if(!data.success){
                 dispatch(setIsAuthenticated(false))
                 return
@@ -45,7 +53,7 @@ export const authApi = createApi({
               dispatch(setIsAuthenticated(true))
               
           } catch (error) {
-            dispatch(setUserInfo(''))
+            dispatch(setUserInfo(null))
             dispatch(setIsAuthenticated(false))
           }
       }
@@ -71,5 +79,5 @@ export const {
   useRegisterUserMutation,
   useLoginUserMutation,
   useLazyLogoutUserQuery,
-  useGetprofileQuery,
+  useGetProfileQuery,
 } = authApi;

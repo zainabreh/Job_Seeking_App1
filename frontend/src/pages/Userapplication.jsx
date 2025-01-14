@@ -7,7 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useDelteApplicationMutation, useGetUserApplicationQuery } from "../../Redux/auth/application.api";
-import { useGetprofileQuery } from "../../Redux/auth/auth.api";
+import { useGetProfileQuery } from "../../Redux/auth/auth.api";
 import { useDispatch, useSelector } from "react-redux";
 import { removeApplication } from "../../Redux/Feature/application.slice";
 import { Link } from "react-router-dom";
@@ -18,7 +18,7 @@ function createData(No, position, company, status) {
 
 export default function Userapplication() {
 
-  const {data:profile} = useGetprofileQuery() 
+  const {data:profile} = useGetProfileQuery() 
   const {data,error,isLoading,refetch} = useGetUserApplicationQuery()
   
   const [delteApplication] = useDelteApplicationMutation()

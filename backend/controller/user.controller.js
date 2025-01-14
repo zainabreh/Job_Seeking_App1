@@ -23,6 +23,7 @@ export const getSingleUser = async (req,res,next)=>{
 }
 export const getProfile = async (req,res,next)=>{
     let id = req.user.id
+    
     try {
        let user = await userModel.findById(id)
        

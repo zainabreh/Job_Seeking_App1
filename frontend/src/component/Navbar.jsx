@@ -1,12 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useGetprofileQuery, useLazyLogoutUserQuery } from "../../Redux/auth/auth.api";
+import { useGetProfileQuery, useLazyLogoutUserQuery } from "../../Redux/auth/auth.api";
 import { useSelector } from "react-redux";
 
 const Navbar = () => {
 
-  const {isLoading} = useGetprofileQuery()
+  const {isLoading} = useGetProfileQuery()
+  // const [userInfo,setUserInfo] = useState()
+  // const [Authenticate,setAuthenticated] = useState()
   const {user,isAuthenticated} = useSelector((v)=>v.auth)
+  console.log(`user: ${user} and isAuthenticated: ${isAuthenticated}`);
+  // useEffect(() => {
+  //   setUserInfo(user)
+  //   setAuthenticated(isAuthenticated)
+  // }, [user, isAuthenticated]);
   
   const [logoutUser,{data}] = useLazyLogoutUserQuery()
 

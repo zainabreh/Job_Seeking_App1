@@ -7,7 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useGetRecuiterApplicationQuery, useUpdateApplicationStatusMutation } from "../../Redux/auth/application.api";
-import { useGetprofileQuery } from "../../Redux/auth/auth.api";
+import { useGetProfileQuery } from "../../Redux/auth/auth.api";
 import { useDispatch, useSelector } from "react-redux";
 import { statusUpdation } from "../../Redux/Feature/application.slice";
 import { ToastContainer, toast } from "react-toastify";
@@ -19,7 +19,7 @@ import { Link } from "react-router-dom";
 export default function Recuiterapplication() {
 
   const {data,isLoading,refetch} = useGetRecuiterApplicationQuery()
-  const {data:profile} = useGetprofileQuery() 
+  const {data:profile} = useGetProfileQuery() 
   const [updateApplicationStatus] = useUpdateApplicationStatusMutation()
   const dispatch = useDispatch()
 
