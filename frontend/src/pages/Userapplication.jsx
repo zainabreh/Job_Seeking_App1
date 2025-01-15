@@ -116,7 +116,12 @@ export default function Userapplication() {
                 <TableCell component="th" scope="row">
                   {index++}
                 </TableCell>
-                <TableCell align="left"><Link to={`/applicationview/${v.data.application._id}`}><i className="fa-regular fa-eye" style={{fontSize:"15px",padding:"5px",cursor:"pointer",color:"blue"}}></i></Link>{v.data.application.position}</TableCell>
+                <TableCell align="left">
+                <Link to={`/applicationview/${v.data.application._id}`}>
+                <i className="fa-regular fa-eye" style={{fontSize:"15px",padding:"5px",cursor:"pointer",color:"blue"}}></i>
+                </Link>
+                {v.data.application.position}
+                </TableCell>
                 <TableCell align="left">{v.data.application.companyName}</TableCell>
                 <TableCell align="left">{v.data.application.status}</TableCell>
                 <TableCell align="left">

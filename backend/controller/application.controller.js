@@ -39,12 +39,9 @@ export const getEmployerApplication = async (req, res, next) => {
 };
 export const getSingleApplication = async (req, res, next) => {
   try {
-    const { id } = req.params;    
+    const { id } = req.params;        
 
-    const applications = await applicationModel.findById(id); 
-    
-    console.log("Application single.....",applications);
-    
+    const applications = await applicationModel.findById(id);     
 
     res.json({
       success: true,
