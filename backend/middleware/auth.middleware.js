@@ -4,19 +4,20 @@ import 'dotenv/config'
 
 export const isAuthenticated = (req,res,next)=>{
     const {auth} = req.cookies 
-    console.log("token,,,,,,,,,,,",auth);
-      
+    console.log("cookies,,,,,,,,,,,",req.cookies);
+    console.log("token,,,,,,,,,,,",req.cookies.auth);
+      next()
     
     // if(!auth) return next(new Error("login to access this resource"))
 
-    try {
-        let authuser = jwt.verify(auth,process.env.TOKEN)
-        req.user = authuser         
+    // try {
+    //     let authuser = jwt.verify(auth,process.env.TOKEN)
+    //     req.user = authuser         
         
-        next()
-    } catch (error) {
-        next(error)
-    }
+    //     next()
+    // } catch (error) {
+    //     next(error)
+    // }
 }
 
 export const isAuthorized = (...roles)=>{

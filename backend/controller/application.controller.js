@@ -11,8 +11,12 @@ export const getRecuiterApplication = async (req, res, next) => {
     if(!id){
       next(new Error("Not Allowed"))
     }
+
+    console.log("recuiter id....",id);
+    
     
     const applications = await applicationModel.find({ "recuiter_id.user": id });
+    console.log("recuiter id...application....",applications);
     
     res.json({
       success: true,
