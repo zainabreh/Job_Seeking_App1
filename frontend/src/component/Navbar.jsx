@@ -1,25 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useGetProfileQuery, useLazyLogoutUserQuery } from "../../Redux/auth/auth.api";
-import { useSelector } from "react-redux";
+import { useLazyLogoutUserQuery } from "../../Redux/auth/auth.api";
+import { useDispatch, useSelector } from "react-redux";
+import { clearUserInfo, setIsAuthenticated } from "../../Redux/Feature/auth.slice";
 
 const Navbar = () => {
 
-  const {isLoading} = useGetProfileQuery()
-  // const [userInfo,setUserInfo] = useState()
-  // const [Authenticate,setAuthenticated] = useState()
-  const {user,isAuthenticated} = useSelector((v)=>v.auth)
-  console.log(`user: ${user} and isAuthenticated: ${isAuthenticated}`);
-  // useEffect(() => {
-  //   setUserInfo(user)
-  //   setAuthenticated(isAuthenticated)
-  // }, [user, isAuthenticated]);
-  
+  const dispatch = useDispatch()
+
+  const {user,key} = useSelector(v=>v.auth)  
+
   const [logoutUser,{data}] = useLazyLogoutUserQuery()
 
 const handleLogOut = async ()=>{
   await logoutUser()
+  dispatch(clearUserInfo());
 }
+
 
   return (
     <>
@@ -50,9 +47,9 @@ const handleLogOut = async ()=>{
             </span>
           </div></Link>
           {
-            isAuthenticated ?
+            key && user ?
              <div className="btn-group dropstart">
-               <img src={user?.user?.avatar} alt="" style={{width:"40px",height:"40px",borderRadius:"50%"}}/>
+               <img src={user?.avatar} alt="" style={{width:"40px",height:"40px",borderRadius:"50%"}}/>
               <button
                 className="btn  dropdown-toggle"
                 type="button"
@@ -60,7 +57,7 @@ const handleLogOut = async ()=>{
                 aria-expanded="false"
                 style={{ outline: "none", border: "none", color: "white" }}
               >
-                 Hi, {user?.user?.firstname}  {user?.user?.lastname} 
+                 Hi, {user?.firstname}  {user?.lastname} 
               </button>
               <ul
                 className="dropdown-menu dropdown-menu-dark"
@@ -68,9 +65,9 @@ const handleLogOut = async ()=>{
               >
                 <li>
                   {
-                    user?.user?.roles === "admin" ? ( <Link to={'/admin/admindashboard'} className="dropdown-item">
+                    user?.roles === "admin" ? ( <Link to={'/admin/admindashboard'} className="dropdown-item">
                       Dashboard
-                    </Link>) : (user?.user?.roles === "recuiter" ? (<Link to={'/recuiter/recuiterdashboard'} className="dropdown-item">
+                    </Link>) : (user?.roles === "recuiter" ? (<Link to={'/recuiter/recuiterdashboard'} className="dropdown-item">
                       Dashboard
                     </Link>) : (<Link to={'userdashboard'} className="dropdown-item">
                     Dashboard

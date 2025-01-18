@@ -7,7 +7,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useGetRecuiterApplicationQuery, useUpdateApplicationStatusMutation } from "../../Redux/auth/application.api";
-import { useGetProfileQuery } from "../../Redux/auth/auth.api";
 import { useDispatch, useSelector } from "react-redux";
 import { statusUpdation } from "../../Redux/Feature/application.slice";
 import { ToastContainer, toast } from "react-toastify";
@@ -19,13 +18,15 @@ import { Link } from "react-router-dom";
 export default function Recuiterapplication() {
 
   const {data,isLoading,refetch} = useGetRecuiterApplicationQuery()
-  const {data:profile} = useGetProfileQuery() 
   const [updateApplicationStatus] = useUpdateApplicationStatusMutation()
+  console.log("recuiter application......",data&&data);
+  
+  const {user} = useSelector(v=>v.auth)
   const dispatch = useDispatch()
 
   const applications = useSelector((v)=>v.application?.userApplication)  
 
-  const currentUserId = profile?.user?._id;
+  const currentUserId = user?._id;
   const filteredApplications = Array.isArray(applications) 
     ? applications.filter(application => application?.data?.application?.recuiter_id.user === currentUserId) 
     : [];

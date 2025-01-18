@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     user : null,
-    isAuthenticated: false
+    key: null,
 }
 
 const authSlice = createSlice({
@@ -10,15 +10,13 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         setUserInfo:(state,action)=>{
-            state.user = action.payload
-        },
-
-        setIsAuthenticated:(state,action)=>{
-            state.isAuthenticated = action.payload
+            state.user = action.payload.user
+            state.key = action.payload.jwt_key 
         },
        
         clearUserInfo: (state,action)=>{
-
+            state.key = null
+            state.user = null
         }
     }
 })

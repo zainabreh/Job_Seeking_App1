@@ -4,6 +4,7 @@ export const jobApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:8000",
     credentials: "include",
+    mode: "cors"
   }),
   endpoints: (builder) => ({
     getAllJobs: builder.query({
@@ -23,7 +24,7 @@ export const jobApi = createApi({
         url: "/job/newJob",
         method: "POST",
         body: data,
-      }),
+      }),      
     }),
 
     deleteJob: builder.mutation({

@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Sidebar = () => {
-  const { user, isAuthenticated } = useSelector((v) => v.auth);
+  const { user, key } = useSelector((v) => v.auth);
 
   return (
     <>
@@ -14,9 +14,9 @@ const Sidebar = () => {
           
             <li className="nav-item">
               <div>
-                <img src={user?.user?.avatar} alt="" style={{width:"70px",height:"70px",borderRadius:"50%"}}/>
+                <img src={user?.avatar} alt="" style={{width:"70px",height:"70px",borderRadius:"50%"}}/>
                 <p className="nav-list" aria-current="page" style={{fontSize:"20px",marginBlock:"15px",marginLeft:"15px"}}>
-                  {user?.user?.username}
+                  {user?.username}
                 </p>
               </div>
             </li>
@@ -26,7 +26,7 @@ const Sidebar = () => {
 
 
           {/* User */}
-          {user?.user?.roles === "user" && (
+          {user?.roles === "user" && (
             <li className="nav-item">
               <Link to={"usepProfileCard"}>
                 <div
@@ -53,7 +53,7 @@ const Sidebar = () => {
             </li>
           )}
 
-          {user?.user?.roles === "user" && (
+          {user?.roles === "user" && (
             <li className="nav-item">
               <Link to={"userapplication"}>
                 <div
@@ -82,7 +82,7 @@ const Sidebar = () => {
 
 
           {/* Recuiter */}
-          {user?.user?.roles === "recuiter" && (
+          {user?.roles === "recuiter" && (
             <li className="nav-item">
               <Link to={"/recuiter/recuiterProfileCard"}>
                 <div
@@ -109,7 +109,7 @@ const Sidebar = () => {
             </li>
           )}
 
-          {user?.user?.roles === "recuiter" && (
+          {user?.roles === "recuiter" && (
             <li className="nav-item">
               <Link to={"/recuiter/recuiterapplication"}>
                 <div
@@ -136,7 +136,7 @@ const Sidebar = () => {
             </li>
           )}
 
-          {user?.user?.roles === "recuiter" && (
+          {user?.roles === "recuiter" && (
             <li className="nav-item">
               <Link to={"/recuiter/addjob"}>
                 <div
@@ -163,7 +163,7 @@ const Sidebar = () => {
             </li>
           )}
 
-          {user?.user?.roles === "recuiter" && (
+          {user?.roles === "recuiter" && (
             <li className="nav-item">
               <Link to={"/recuiter/manageJobs"}>
                 <div
@@ -192,7 +192,7 @@ const Sidebar = () => {
 
           {/* Admin */}
 
-          {user?.user?.roles === "admin" && (
+          {user?.roles === "admin" && (
             <li className="nav-item">
               <Link to={"/admin/adminprofilecard"}>
                 <div
@@ -219,7 +219,7 @@ const Sidebar = () => {
             </li>
           )}
 
-          {user?.user?.roles === "admin" && (
+          {user?.roles === "admin" && (
             <li className="nav-item">
               <Link to={"/admin/adminStatus"}>
                 <div
@@ -246,7 +246,7 @@ const Sidebar = () => {
             </li>
           )}
 
-          {user?.user?.roles === "admin" && (
+          {user?.roles === "admin" && (
             <li className="nav-item">
               <Link to={"/admin/manageUsers"}>
                 <div
@@ -273,7 +273,7 @@ const Sidebar = () => {
             </li>
           )}
 
-          {user?.user?.roles === "admin" && (
+          {user?.roles === "admin" && (
             <li className="nav-item">
               <Link to={"/admin/addcategory"}>
                 <div

@@ -8,19 +8,23 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useDeleteJobMutation, useGetMyJobsQuery } from "../../Redux/auth/job.api";
 import { Link, useNavigate } from "react-router-dom";
-import { removejob } from "../../Redux/Feature/job.slice";
+import { removejob, setjob } from "../../Redux/Feature/job.slice";
 import { useDispatch } from "react-redux";
 
 export default function Managejob() {
   const navigate = useNavigate()
   const {data,isLoading,error,refetch} = useGetMyJobsQuery()
-  const [deleteJob] = useDeleteJobMutation()
-
+  console.log("My jobs...", data);
+  
+  const [deleteJob] = useDeleteJobMutation()  
   const dispatch = useDispatch()
 
-  React.useEffect(()=>{
-    refetch()
-  },[data])
+  // React.useEffect(()=>{
+  //   if(data&&data.myjobs){
+  //     dispatch(setjob(data.myjobs))
+  //     refetch()
+  //   }
+  // },[data])
   
   if(isLoading){
     return <h1>Loading.....</h1>
@@ -30,7 +34,7 @@ export default function Managejob() {
     return <h1>Somthing went wrong</h1>
   }
   
-  if(data.myjobs.length === 0 ){
+  if(!data?.myjobs?.length){
     return <h1 style={{
       textAlign: "center",
       marginTop: "30%",

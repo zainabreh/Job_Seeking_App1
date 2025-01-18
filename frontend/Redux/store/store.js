@@ -12,8 +12,8 @@ import { categoryApi } from "../auth/category.api.js";
 import { applicationApi } from "../auth/application.api.js";
 
 const persistConfig = {
-  key: "root",
-  blacklist: [authApi.reducerPath, 'auth'],
+  key: "user",
+  // blacklist: [authApi.reducerPath, 'auth'],
   storage,
 };
 

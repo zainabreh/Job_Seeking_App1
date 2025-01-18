@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux'
 import { Navigate, Outlet } from 'react-router-dom'
 
 const UserLayout = () => {
-const {isAuthenticated} = useSelector(v=>v.auth)
+const {key} = useSelector(v=>v.auth)
 
-if (!isAuthenticated) {
+if (!key) {
   return <Navigate to="/login" />;
 }
     

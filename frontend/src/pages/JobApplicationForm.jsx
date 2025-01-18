@@ -18,7 +18,7 @@ const JobApplicationForm = () => {
 
   const {data} = useGetSingleJobQuery(id)
 
-  const {user} = useSelector((v)=>v.auth.user)
+  const {user} = useSelector((v)=>v.auth)
   
 
   const formik = useFormik({

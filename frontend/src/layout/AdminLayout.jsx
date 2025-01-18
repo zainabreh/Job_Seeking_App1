@@ -3,11 +3,11 @@ import { useSelector } from 'react-redux'
 import { Navigate, Outlet } from 'react-router-dom'
 
 const AdminLayout = ({role}) => {
-const {user,isAuthenticated} = useSelector(v=>v.auth)
+const {user,key} = useSelector(v=>v.auth)
 
 // console.log("userRoles checking",user.us);
 
-if (!isAuthenticated || user.user.roles !== role) {
+if (!key || user?.roles !== role) {
   return <Navigate to="/login" />;
 }
     

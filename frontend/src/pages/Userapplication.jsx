@@ -7,7 +7,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useDelteApplicationMutation, useGetUserApplicationQuery } from "../../Redux/auth/application.api";
-import { useGetProfileQuery } from "../../Redux/auth/auth.api";
 import { useDispatch, useSelector } from "react-redux";
 import { removeApplication } from "../../Redux/Feature/application.slice";
 import { Link } from "react-router-dom";
@@ -18,18 +17,17 @@ function createData(No, position, company, status) {
 
 export default function Userapplication() {
 
-  const {data:profile} = useGetProfileQuery() 
   const {data,error,isLoading,refetch} = useGetUserApplicationQuery()
   
   const [delteApplication] = useDelteApplicationMutation()
-  const {user} = useSelector((v)=>v.auth.user)
+  const {user} = useSelector((v)=>v.auth)
   const applications = useSelector((v)=>v.application?.userApplication)
   const dispatch = useDispatch()
   if(isLoading){
     return <h1>Loading....</h1>
   }
   
-  const currentUserId = user._id
+  const currentUserId = user?._id
   
   const filteredApplications = Array.isArray(applications) 
   ? applications.filter(app => app.data?.application?.applicant_id.user === currentUserId) 

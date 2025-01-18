@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import {useGetSingleJobQuery } from "../../Redux/auth/job.api";
 
 const JobDetail = () => {
-  const {user,isAuthenticated} = useSelector(v=>v.auth)
+  const {user,key} = useSelector(v=>v.auth)
   const [singleJob,setSingleJob] = useState()
   const {id} = useParams()
   const {data,error,isLoading,refetch} = useGetSingleJobQuery(id)   
@@ -93,7 +93,7 @@ const JobDetail = () => {
             <br />
 
             {
-              isAuthenticated && user?.user?.roles === 'user' ? <><Link to={`/apply/${singleJob._id}`}><button type="button" className="btn" style={{marginBottom:"30px",backgroundColor:"white"}}>Apply</button></Link></> : isAuthenticated && user?.user?.roles === 'recuiter' || 'admin' ? "" : <div class="alert alert-danger" role="alert" style={{marginBottom:"30px",}}>
+              key && user?.roles === 'user' ? <><Link to={`/apply/${singleJob._id}`}><button type="button" className="btn" style={{marginBottom:"30px",backgroundColor:"white"}}>Apply</button></Link></> : key && user?.roles === 'recuiter' || 'admin' ? "" : <div class="alert alert-danger" role="alert" style={{marginBottom:"30px",}}>
               LogIn or Register to apply for the Job
             </div>
             }

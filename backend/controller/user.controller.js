@@ -23,6 +23,9 @@ export const getSingleUser = async (req,res,next)=>{
 }
 export const getProfile = async (req,res,next)=>{
     let id = req.user.id
+
+    console.log("getprofilecookies.................",req.cookies);
+    
     
     try {
        let user = await userModel.findById(id)

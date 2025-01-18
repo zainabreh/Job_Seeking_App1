@@ -29,25 +29,25 @@ const UsepProfileCard = () => {
                       <td scope="col" style={{ fontWeight: "600" }}>
                         Username:
                       </td>
-                      <td style={{fontWeight:"600"}}>{user?.user?.firstname} {user?.user?.lastname}</td>
+                      <td style={{fontWeight:"600"}}>{user?.firstname} {user?.lastname}</td>
                     </tr>
                     <tr>
                       <td scope="col" style={{ fontWeight: "600"}}>
                         Role:
                       </td>
-                      <td style={{fontWeight:"600"}}>{user?.user?.roles}</td>
+                      <td style={{fontWeight:"600"}}>{user?.roles}</td>
                     </tr>
                     <tr>
                       <td scope="col" style={{ fontWeight: "600"}}>
                         Email:
                       </td>
-                      <td style={{fontWeight:"600"}}>{user?.user?.email}</td>
+                      <td style={{fontWeight:"600"}}>{user?.email}</td>
                     </tr>
                     <tr>
                       <td scope="col" style={{ fontWeight: "600" }}>
                         PhoneNumber:
                       </td>
-                      <td style={{fontWeight:"600"}}>{user?.user?.phoneNumber}</td>
+                      <td style={{fontWeight:"600"}}>{user?.phoneNumber}</td>
                     </tr>
                     <tr>
                       <td scope="col" style={{ fontWeight: "600" }}>
@@ -60,7 +60,7 @@ const UsepProfileCard = () => {
                       <td scope="col" style={{ fontWeight: "600" }}>
                         Gender:
                       </td>
-                      <td style={{fontWeight:"600"}}>{user?.user?.gender}</td>
+                      <td style={{fontWeight:"600"}}>{user?.gender}</td>
                     </tr>
                   </tbody>
                 </table>

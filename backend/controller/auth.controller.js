@@ -33,11 +33,7 @@ export const signup = async (req, res, next) => {
 };
 
 export const login = async (req, res, next) => {
-  let loguser = req.body;
-  console.log("body..",req.body);
-  console.log("header..",req.headers);
-  console.log("cookies..",req.cookies);
-  
+  let loguser = req.body;  
 
   try {
     if (!loguser.email) return next(new Error("provide Email"));
@@ -62,10 +58,14 @@ export const login = async (req, res, next) => {
       { expiresIn: "2h" }
     );    
 
-    res.cookie("auth", jwt_key, { maxAge: 9000000, httpOnly: true, sameSite: 'none', secure:true}).json({
+    console.log("jwt_key",jwt_key);
+    
+
+    res.cookie("auth", jwt_key, { maxAge: 9000000, httpOnly: true, sameSite: 'none', secure:true}).status(200).json({
       success:true,
       message: "User LogIn",
       user,
+      jwt_key
     });
   } catch (error) {
     next(error);0
@@ -74,8 +74,10 @@ export const login = async (req, res, next) => {
 
 export const logout = (req, res, next) => {
   try {
-    res.cookie("auth", null, { expiresIn: new Date(Date.now()) }).json({//new Date(Date.now())
+    res.cookie("auth", null, { expiresIn: new Date(Date.now()),maxAge: 0, httpOnly: true,  sameSite: 'none', secure: true })
+    .json({
       message: "logout successfully",
+      auth
     });
   } catch (error) {
     next(error);

@@ -3,10 +3,10 @@ import { useSelector } from 'react-redux'
 import { Navigate, Outlet } from 'react-router-dom'
 
 const RecuiterLayout = ({role}) => {
-const {user,isAuthenticated} = useSelector(v=>v.auth)
+const {user,key} = useSelector(v=>v.auth)
 
    
-  if (!isAuthenticated || user.user.roles !== role) {
+  if (!key || user?.roles !== role) {
     return <Navigate to="/login"  />;
   }
     

@@ -17,8 +17,6 @@ const ApplicationView = () => {
     setIsModalOpen(false);
   };
 
-  console.log("DATA>>>>>>>>>>>>>>>>", data && data);
-
   return (
     <>
       <div class="container" style={{ color: "white" }}>

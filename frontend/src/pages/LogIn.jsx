@@ -23,8 +23,9 @@ const LogIn = () => {
       }),
       onSubmit: async (v) => {
         try {
-          await loginUser(v);
-          
+          const user= await loginUser(v).unwrap();
+          dispatch(setUserInfo(user))
+          navigate("/")         
           // if (user.success) {
           //   setApimsg(user.message);
             

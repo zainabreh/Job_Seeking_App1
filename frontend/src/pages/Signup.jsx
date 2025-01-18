@@ -55,7 +55,8 @@ const Signup = () => {
       delete v.cpassword;
 
       const user = await registerUser(v).unwrap();
-      dispatch(setUserInfo(user));      
+      dispatch(setUserInfo(user)); 
+          
       // toast.success("User Registered Successfully");
 
       if (user) {
