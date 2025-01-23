@@ -23,16 +23,14 @@ export default function Userapplication() {
   
   const [delteApplication] = useDelteApplicationMutation()
   const {user} = useSelector((v)=>v.auth)
-  const applications = useSelector((v)=>v.application?.userApplication)
   const dispatch = useDispatch()
   if(isLoading){
     return <h1>Loading....</h1>
   }
-  
   const currentUserId = user?._id
   
-  const filteredApplications = Array.isArray(applications) 
-  ? applications.filter(app => app.data?.application?.applicant_id.user === currentUserId) 
+  const filteredApplications = Array.isArray(data?.applications) 
+  ? data?.applications.filter(app => app.applicant_id?.user === currentUserId) 
   : [];     
 
   if (filteredApplications.length === 0) {
@@ -110,25 +108,25 @@ export default function Userapplication() {
              {
               filteredApplications.map((v,index)=>(
                 <TableRow
-                key={v.data.application._id}
+                key={v._id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
                   {index++}
                 </TableCell>
                 <TableCell align="left">
-                <Link to={`/applicationview/${v.data.application._id}`}>
+                <Link to={`/applicationview/${v._id}`}>
                 <i className="fa-regular fa-eye" style={{fontSize:"15px",padding:"5px",cursor:"pointer",color:"blue"}}></i>
                 </Link>
-                {v.data.application.position}
+                {v.position}
                 </TableCell>
-                <TableCell align="left">{v.data.application.companyName}</TableCell>
-                <TableCell align="left">{v.data.application.status}</TableCell>
+                <TableCell align="left">{v.companyName}</TableCell>
+                <TableCell align="left">{v.status}</TableCell>
                 <TableCell align="left">
-                <Link to={`/UpdateUserApplication/${v.data.application._id}`}>
+                <Link to={`/UpdateUserApplication/${v._id}`}>
                   <i className="fa-solid fa-pen-to-square" style={{fontSize:"20px",padding:"5px",cursor:"pointer",color:"green"}}></i>
                   </Link>
-                  <i className="fa-solid fa-trash" style={{fontSize:"20px",padding:"5px",cursor:"pointer",color:"red"}} onClick={()=>handleDelete(v.data.application._id)}></i>
+                  <i className="fa-solid fa-trash" style={{fontSize:"20px",padding:"5px",cursor:"pointer",color:"red"}} onClick={()=>handleDelete(v._id)}></i>
                   </TableCell>
               </TableRow>
               ))

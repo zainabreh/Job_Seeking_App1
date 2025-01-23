@@ -15,24 +15,20 @@ export default function Managejob() {
   const navigate = useNavigate()
   const {user} = useSelector(v=>v.auth)
   const {data,isLoading,error,refetch} = useGetMyJobsQuery()
-  console.log("My jobs...", data&&data);
-  console.log("My jobs...", data?.myjobs[0]);
 
   const currentUser = user?._id
+  
+  React.useEffect(() => {
+    if (user?._id) {
+      refetch();
+    }
+  }, [user?._id, refetch]);
 
-  const filteredJobs = data?.myjobs ? data?.myjobs.filter((job)=>job.postedBy === currentUser) : []
-  console.log(filteredJobs);
+  const filteredJobs = Array.isArray(data?.myjobs) ? data?.myjobs.filter((job)=>job.postedBy == currentUser) : []  
   
   
   const [deleteJob] = useDeleteJobMutation()  
   const dispatch = useDispatch()
-
-  // React.useEffect(()=>{
-  //   if(data&&data.myjobs){
-  //     dispatch(setjob(data.myjobs))
-  //     refetch()
-  //   }
-  // },[data])
   
   if(isLoading){
     return <h1>Loading.....</h1>
@@ -42,7 +38,7 @@ export default function Managejob() {
     return <h1>Somthing went wrong</h1>
   }
   
-  if(!data?.myjobs?.length){
+  if(!filteredJobs.length){
     return <h1 style={{
       textAlign: "center",
       marginTop: "30%",
@@ -96,7 +92,7 @@ export default function Managejob() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data?.myjobs?.map((row,index) => (
+              {filteredJobs.map((row,index) => (
                 <TableRow
                   key={row._id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

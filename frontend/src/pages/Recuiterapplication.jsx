@@ -17,7 +17,6 @@ import { Link } from "react-router-dom";
 
 export default function Recuiterapplication() {
 
-  // const applications = useSelector((v)=>v.application?.userApplication)  
   const [updateApplicationStatus] = useUpdateApplicationStatusMutation()
   const {data,isLoading,refetch} = useGetRecuiterApplicationQuery()
   
@@ -29,12 +28,6 @@ export default function Recuiterapplication() {
   const filteredApplications = Array.isArray(data?.applications) 
   ? data?.applications.filter(application => application.recuiter_id?.user === currentUserId)
   : [];
-
-  console.log("filteredapplications...",filteredApplications);
-  console.log("currentUserId...",currentUserId);
-  
-
-
 
     React.useEffect(() => {
       const intervalId = setInterval(() => {

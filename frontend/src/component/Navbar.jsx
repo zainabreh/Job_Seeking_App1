@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useLazyLogoutUserQuery } from "../../Redux/auth/auth.api";
 import { useDispatch, useSelector } from "react-redux";
-import { clearUserInfo, setIsAuthenticated } from "../../Redux/Feature/auth.slice";
+import { clearUserInfo } from "../../Redux/Feature/auth.slice";
 
 const Navbar = () => {
 
@@ -13,8 +13,7 @@ const Navbar = () => {
   const [logoutUser,{data}] = useLazyLogoutUserQuery()
 
 const handleLogOut = async ()=>{
-  const out = await logoutUser().unwrap()
-  console.log("out...",out);
+  await logoutUser().unwrap()
   
   dispatch(clearUserInfo());
 }

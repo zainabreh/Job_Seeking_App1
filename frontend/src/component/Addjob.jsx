@@ -5,6 +5,7 @@ import "react-toastify/ReactToastify.css";
 import React, { useEffect } from "react";
 import { useCreateJobMutation, useUpdateJobMutation } from "../../Redux/auth/job.api";
 import { useDispatch, useSelector } from "react-redux";
+import {useGetAllCategoryQuery} from "../../Redux/auth/category.api.js"
 import { clearJob, setjob } from "../../Redux/Feature/job.slice";
 import { useNavigate } from "react-router-dom";
 
@@ -15,10 +16,10 @@ const Addjob = () => {
 
 
   const [createJob, { data: createData, error: createError, isLoading }] = useCreateJobMutation();
+  const {data} = useGetAllCategoryQuery()
 
   const navigate = useNavigate();
   const dispatch = useDispatch();  
-  const {category} = useSelector((v)=>v.category) 
   
 
  const initialValues =  {
@@ -205,8 +206,8 @@ const Addjob = () => {
             >
               <option selected>Select a Job category</option>
               {
-                category.map((cat)=>(
-                  <option value={cat.newCategory._id}>{cat.newCategory.categoryName}</option>
+                data && data.categories.map((cat)=>(
+                  <option value={cat._id}>{cat.categoryName}</option>
                 ))
               }
               
