@@ -33,21 +33,21 @@ export const signup = async (req, res, next) => {
 };
 
 export const login = async (req, res, next) => {
-  let loguser = req.body;  
+  const loguser = req.body;  
 
   try {
-    if (!loguser.email) return next(new Error("provide Email"));
-    if (!loguser.password) return next(new Error("provide Password"));
+    if (!loguser.email) return next(new Error("Provide Email"));
+    if (!loguser.password) return next(new Error("Provide Password"));
 
-    let user = await userModel.findOne({ email: loguser.email });
+    const user = await userModel.findOne({ email: loguser.email });
 
-    if (user === null) return next(new Error("Invalid Email"));
+    if (!user) return next(new Error("Invalid Email"));
 
-    let logpassword = await bcrypt.compare(loguser.password, user.password);
+    const logpassword = await bcrypt.compare(loguser.password, user.password);
 
     if (!logpassword) return next(new Error("Invalid Password"));
-
-    let jwt_key = jwt.sign(
+    
+    const jwt_key = jwt.sign(
       {
         id: user._id,
         username: user.username,
@@ -56,28 +56,32 @@ export const login = async (req, res, next) => {
       },
       process.env.TOKEN,
       { expiresIn: "2h" }
-    );    
+    );        
 
-    console.log("jwt_key",jwt_key);
-    
-
-    res.cookie("auth", jwt_key, { maxAge: 9000000, httpOnly: true, sameSite: 'none', secure:true}).status(200).json({
-      success:true,
+    res.cookie("auth", jwt_key, {
+      maxAge: 2 * 60 * 60 * 1000, 
+      httpOnly: true,
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', 
+      secure: process.env.NODE_ENV === 'production', 
+      path: "/", 
+    },
+  ).status(200).json({
+      success: true,
       message: "User LogIn",
       user,
-      jwt_key
+      jwt_key,
     });
   } catch (error) {
-    next(error);0
+    next(new Error("Unable to login"));
   }
 };
+
 
 export const logout = (req, res, next) => {
   try {
     res.cookie("auth", null, { expiresIn: new Date(Date.now()),maxAge: 0, httpOnly: true,  sameSite: 'none', secure: true })
     .json({
       message: "logout successfully",
-      auth
     });
   } catch (error) {
     next(error);

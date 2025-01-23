@@ -17,19 +17,25 @@ import { Link } from "react-router-dom";
 
 export default function Recuiterapplication() {
 
-  const {data,isLoading,refetch} = useGetRecuiterApplicationQuery()
+  // const applications = useSelector((v)=>v.application?.userApplication)  
   const [updateApplicationStatus] = useUpdateApplicationStatusMutation()
-  console.log("recuiter application......",data&&data);
+  const {data,isLoading,refetch} = useGetRecuiterApplicationQuery()
   
   const {user} = useSelector(v=>v.auth)
   const dispatch = useDispatch()
 
-  const applications = useSelector((v)=>v.application?.userApplication)  
 
   const currentUserId = user?._id;
-  const filteredApplications = Array.isArray(applications) 
-    ? applications.filter(application => application?.data?.application?.recuiter_id.user === currentUserId) 
-    : [];
+  const filteredApplications = Array.isArray(data?.applications) 
+  ? data?.applications.filter(application => application.recuiter_id?.user === currentUserId)
+  : [];
+
+  console.log("filteredapplications...",filteredApplications);
+  console.log("currentUserId...",currentUserId);
+  
+
+
+
     React.useEffect(() => {
       const intervalId = setInterval(() => {
         refetch();
@@ -132,9 +138,9 @@ export default function Recuiterapplication() {
                   <TableCell component="th" scope="row">
                     {index++}
                   </TableCell>
-                  <TableCell align="left"><Link to={`/applicationview/${row._id}`}><i className="fa-regular fa-eye" style={{fontSize:"15px",padding:"5px",cursor:"pointer",color:"blue"}}></i></Link>{row.data.application.position}</TableCell>
-                  <TableCell align="left">{row.data.application.companyName}</TableCell>
-                  <TableCell align="left">{row.data.application.status}</TableCell>
+                  <TableCell align="left"><Link to={`/applicationview/${row._id}`}><i className="fa-regular fa-eye" style={{fontSize:"15px",padding:"5px",cursor:"pointer",color:"blue"}}></i></Link>{row.position}</TableCell>
+                  <TableCell align="left">{row.companyName}</TableCell>
+                  <TableCell align="left">{row.status}</TableCell>
                 <TableCell align="left">
                 <span className="badge text-bg-success" onClick={()=>handleStatusUpdation(row._id,'accept')}>Accept</span>
                 <span className="badge text-bg-danger" style={{marginInline:"5px"}}onClick={()=>handleStatusUpdation(row._id,'reject')}>Reject</span>

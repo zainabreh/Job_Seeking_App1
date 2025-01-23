@@ -31,14 +31,16 @@ export const getEmployerApplication = async (req, res, next) => {
   try {
     const { id } = req.user;    
 
-    const applications = await applicationModel.find({ "applicant_id.user": id });    
+    const applications = await applicationModel.find({ "applicant_id.user": id });  
+    console.log("user application...",applications);
+      
 
     res.json({
       success: true,
       applications,
     });
   } catch (error) {
-    next(error);
+    next(new Error("Unable to get the application"));
   }
 };
 export const getSingleApplication = async (req, res, next) => {

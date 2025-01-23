@@ -4,7 +4,7 @@ import * as yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginUserMutation } from "../../Redux/auth/auth.api";
 import { useDispatch } from "react-redux";
-import { setIsAuthenticated, setUserInfo } from "../../Redux/Feature/auth.slice";
+import { setUserInfo } from "../../Redux/Feature/auth.slice";
 
 const LogIn = () => {
   const [loginUser,{data,isLoading,error}] = useLoginUserMutation()
@@ -23,8 +23,12 @@ const LogIn = () => {
       }),
       onSubmit: async (v) => {
         try {
+          console.log("form data....",v);
           const user= await loginUser(v).unwrap();
+          console.log("user....",user);
+          console.log("Cookies in the request:", document.cookie);
           dispatch(setUserInfo(user))
+          
           navigate("/")         
           // if (user.success) {
           //   setApimsg(user.message);

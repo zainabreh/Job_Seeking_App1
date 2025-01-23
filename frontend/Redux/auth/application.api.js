@@ -5,8 +5,8 @@ export const applicationApi = createApi({
     
     reducerPath:"applicationApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://127.0.0.1:8000",
-        mode:'cors',
+        baseUrl: "http://localhost:8000",
+        // mode:'cors',
         credentials:"include"
     }),    
     endpoints: (builder)=>({

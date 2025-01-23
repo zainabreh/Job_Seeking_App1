@@ -8,8 +8,9 @@ import { Box } from "@mui/material";
 import JobCard from "./JobCard";
 import Pagination from "@mui/material/Pagination";
 import { useDispatch, useSelector } from "react-redux";
-import { useGetAllJobsQuery } from "../../Redux/auth/job.api";
-import { setjob } from "../../Redux/Feature/job.slice";
+import { useGetAllJobsQuery } from "../../Redux/auth/job.api.js";
+import { useGetAllCategoryQuery } from "../../Redux/auth/category.api.js";
+import { setjob } from "../../Redux/Feature/job.slice.js";
 
 export default function JobContainer({ search }) {
   const [products, setProducts] = React.useState([]);
@@ -25,6 +26,10 @@ export default function JobContainer({ search }) {
   const [locationOpen, setLocationOpen] = React.useState(false);
 
   const { category:cat } = useSelector((v) => v.category);
+  const {data:categ} = useGetAllCategoryQuery()
+  // console.log("categories...",categ && categories[0]);
+  
+
   const { data, error, isLoading } = useGetAllJobsQuery({
     search,
     limit,
@@ -118,9 +123,9 @@ export default function JobContainer({ search }) {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                {cat?.map((cat) => (
-                  <MenuItem value={cat.newCategory._id}>
-                    {cat.newCategory.categoryName}
+                {categ && categ.categories.map((cat) => (
+                  <MenuItem value={cat._id}>
+                    {cat.categoryName}
                   </MenuItem>
                 ))}
               </Select>

@@ -8,15 +8,18 @@ import categoryRouter from "./routing/category.routing.js"
 import applicationRouter from "./routing/application.routing.js"
 import { errorHandler } from './middleware/error.middleware.js'
 // import bodyParser from 'body-parser'
-import cookieParser from 'cookie-parser'
+import cookieParser from 'cookie-parser';
 import cors from "cors"
 import { v2 as cloudinary } from 'cloudinary';
 
-const corsOptions = {
-    origin: "http://localhost:5173",
-    credentials:true
-}
 const app = express()
+
+const corsOptions = {
+    origin: "http://localhost:5173", 
+    credentials: true, 
+  };
+  app.use(cors(corsOptions));
+  
 
 connectDB().then(()=>{
     app.listen(process.env.PORT,()=>{
@@ -32,7 +35,6 @@ connectDB().then(()=>{
 
 app.use(express.json({limit: '500mb'}));
 app.use(express.urlencoded({limit: '500mb'}));
-app.use(cors(corsOptions))
 
 
  // Configuration
@@ -44,8 +46,7 @@ app.use(cors(corsOptions))
 
 
 // app.use(bodyParser.json())
-app.use(cookieParser())
-
+app.use(cookieParser());
 
 
 

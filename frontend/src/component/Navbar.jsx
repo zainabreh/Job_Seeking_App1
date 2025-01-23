@@ -13,7 +13,9 @@ const Navbar = () => {
   const [logoutUser,{data}] = useLazyLogoutUserQuery()
 
 const handleLogOut = async ()=>{
-  await logoutUser()
+  const out = await logoutUser().unwrap()
+  console.log("out...",out);
+  
   dispatch(clearUserInfo());
 }
 

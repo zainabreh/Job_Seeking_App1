@@ -9,12 +9,20 @@ import Paper from "@mui/material/Paper";
 import { useDeleteJobMutation, useGetMyJobsQuery } from "../../Redux/auth/job.api";
 import { Link, useNavigate } from "react-router-dom";
 import { removejob, setjob } from "../../Redux/Feature/job.slice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Managejob() {
   const navigate = useNavigate()
+  const {user} = useSelector(v=>v.auth)
   const {data,isLoading,error,refetch} = useGetMyJobsQuery()
-  console.log("My jobs...", data);
+  console.log("My jobs...", data&&data);
+  console.log("My jobs...", data?.myjobs[0]);
+
+  const currentUser = user?._id
+
+  const filteredJobs = data?.myjobs ? data?.myjobs.filter((job)=>job.postedBy === currentUser) : []
+  console.log(filteredJobs);
+  
   
   const [deleteJob] = useDeleteJobMutation()  
   const dispatch = useDispatch()
