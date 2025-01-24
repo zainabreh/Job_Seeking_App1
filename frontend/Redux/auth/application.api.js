@@ -9,6 +9,7 @@ export const applicationApi = createApi({
         // mode:'cors',
         credentials:"include"
     }),    
+    tagTypes: ['Application'],
     endpoints: (builder)=>({
         createApplication: builder.mutation({
             query: (data)=>({
@@ -22,30 +23,57 @@ export const applicationApi = createApi({
                 url:`/application/update/${data.id}`,
                 method:"PUT",
                 body: data.values
-            })
+            }),
+            invalidatesTags: ['Application']
         }),
         updateApplicationStatus: builder.mutation({            
-            // query: (data)=>({
-            //     url:`/application/update/${data.id}/${data.status}`,
-            //     method:"PUT",
-            // })
+            query: (data)=>({
+                url:`/application/update/${data.id}/${data.status}`,
+                method:"PUT",
+            }),
+            async onQueryStarted({ id, status }, { dispatch, queryFulfilled }) {
+                try {
+                  const { data } = await queryFulfilled;
+            
+                  // Manually update the cache for useGetRecuiterApplicationQuery
+                  dispatch(
+                    applicationApi.util.updateQueryData(
+                      "getRecuiterApplication",
+                      undefined,
+                      (draft) => {
+                        const application = draft.applications.find(
+                          (app) => app._id === id
+                        );
+                        if (application) {
+                          application.status = status; // Update the status directly
+                        }
+                      }
+                    )
+                  );
+                } catch (error) {
+                  console.error("Error updating status in cache:", error);
+                }
+              },
+            invalidatesTags: ['Application']
         }),
         getUserApplication: builder.query({
             query: ()=>({
                 url:"/applications/employerAll",
-                method:"GET"
+                method:"GET",
+                providesTags: ['Application'],
             })
         }),
         getRecuiterApplication: builder.query({
             query: ()=>({
                 url:"/applications/recuiterAll",
-                method:"GET"
+                method:"GET",
+                providesTags: ['Application'],
             })
         }),
         getSingleApplication: builder.query({
             query: (id)=>({
                 url:`/applications/${id}`,
-                method:"GET"
+                method:"GET",
             })
         }),
         delteApplication: builder.mutation({

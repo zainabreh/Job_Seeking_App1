@@ -65,7 +65,7 @@ const RecuiterProfileCard = () => {
                     </tr>
                   </tbody>
                 </table>
-               <Link to={"/recuiter/recuiterupdateprofile"}> <p className="edite" style={{textAlign:"justify",fontSize:"20px",fontWeight:"bolder", padding:"20px"}}><i className="fa-solid fa-pen-to-square"></i> Edit</p></Link>
+               <Link to={`/recuiter/recuiterupdateprofile/${user?._id}`}> <p className="edite" style={{textAlign:"justify",fontSize:"20px",fontWeight:"bolder", padding:"20px"}}><i className="fa-solid fa-pen-to-square"></i> Edit</p></Link>
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
@@ -16,20 +16,26 @@ const UpdateUserApplication = () => {
 
   const [updateApplication,{isLoading}]= useUpdateApplicationMutation()
 
-  const {data} = useGetSingleApplicationQuery(id)  
-
-  const {user} = useSelector((v)=>v.auth.user)
+  const {data,refetch} = useGetSingleApplicationQuery(id) 
+  console.log("data....",data && data.applications.position);
+   
+useEffect(()=>{
+  if(data && data){
+    refetch()
+  }
+},[data])
+  const {user} = useSelector((v)=>v.auth)
   
 
   const formik = useFormik({
     initialValues: {
-      name: `${user && user.firstname} ${user && user.lastname} `,
+      name: user && user ? `${user && user.firstname} ${user && user.lastname} ` : "",
       companyName: data && data.applications.companyName,
-      userEmail: user && user.email,
-      phone: user && user.phoneNumber,
+      userEmail: user && user ? user && user.email : "",
+      phone: user && user ? user && user.phoneNumber : "",
       position: data && data.applications.position,
       coverLetter: data && data.applications.coverLetter,
-      resume: "",
+      resume: data && data.applications.resume,
       companyEmail: data && data.applications.companyEmail
     },
     validationSchema: yup.object({
@@ -178,9 +184,9 @@ const UpdateUserApplication = () => {
               <div className="col-md-12 text-center">
                 {
                   isLoading ? <button type="submit" disabled className="btn btn-primary ">
-                  Submitting...
+                  updating...
                 </button> : <button type="submit" className="btn btn-primary ">
-                Submit Application
+                Update Application
               </button>
                 }
               

@@ -45,6 +45,19 @@ export const authApi = createApi({
     // }),
     logoutUser: builder.query({
       query: ()=>'/auth/logout',
+    }),
+    updateUser: builder.mutation({
+      query: (data) => ({
+        url: `/user/updateuser/${data._id}`,
+        method: 'PUT',
+        body: data.formData
+      })
+    }),
+    singleUser: builder.query({
+      query: (id)=>({
+        url: `/user/singleuser/${id}`,
+        method: 'GET'
+      })
     })
   }),
 
@@ -54,5 +67,7 @@ export const {
   useRegisterUserMutation,
   useLoginUserMutation,
   useLazyLogoutUserQuery,
+  useUpdateUserMutation,
+  useSingleUserQuery
   // useGetProfileQuery,
 } = authApi;

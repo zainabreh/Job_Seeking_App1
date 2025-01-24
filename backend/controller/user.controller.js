@@ -14,7 +14,11 @@ export const getAllUsers = async (req,res,next)=>{
 }
 export const getSingleUser = async (req,res,next)=>{
     try {
+        const {id} = req.params
+        const user = await userModel.findById(id)        
+        
         res.json({
+            user,
             message:"single user"
         })
     } catch (error) {
@@ -22,10 +26,7 @@ export const getSingleUser = async (req,res,next)=>{
     }
 }
 export const getProfile = async (req,res,next)=>{
-    let id = req.user.id
-
-    console.log("getprofilecookies.................",req.cookies);
-    
+    let id = req.user.id    
     
     try {
        let user = await userModel.findById(id)
@@ -51,7 +52,15 @@ export const createNewUser = async (req,res,next)=>{
 }
 export const updateUser = async (req,res,next)=>{
     try {
+        const {id} = req.params
+        const data = req.body
+
+        console.log("Idxxxxxxxxxxxxxxxx",id,"         formDatavvvvvvvvvvvvvvv",data);
+
+        const updateUser = await userModel.findByIdAndUpdate(id,data)
+        
         res.json({
+            updateUser,
             message:"user updated"
         })
     } catch (error) {

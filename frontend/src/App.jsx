@@ -63,7 +63,7 @@ const [search, setSearch] = React.useState("");
               ></Route>
               <Route path="apply/:id" element={<JobApplicationForm/>}></Route>
               <Route
-                path="userupdateprofile"
+                path="userupdateprofile/:id"
                 element={<Userupdateprofile />}
               ></Route>
               <Route
@@ -101,7 +101,7 @@ const [search, setSearch] = React.useState("");
                 element={<RecuiterProfileCard />}
               ></Route>
               <Route
-                path="recuiterupdateprofile"
+                path="recuiterupdateprofile/:id"
                 element={<Recuiterupdaterofile />}
               ></Route>
               <Route
@@ -119,7 +119,7 @@ const [search, setSearch] = React.useState("");
                 element={<AdminProfileCard />}
               ></Route>
               <Route
-                path="adminupdateprofile"
+                path="adminupdateprofile/:id"
                 element={<AdminUpdateProfile />}
               ></Route>
               <Route path="manageUsers" element={<ManageUsers />}></Route>

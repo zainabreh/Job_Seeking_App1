@@ -1,36 +1,100 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { useSingleUserQuery, useUpdateUserMutation } from "../../Redux/auth/auth.api";
 
 const Recuiterupdaterofile = () => {
+  const {id} = useParams()
+
+  const [updateUser] = useUpdateUserMutation()
+  const {data,refetch} = useSingleUserQuery(id)  
+
+const [formData,setFormData] = useState({
+  email: "",
+  firstname: "",
+  lastname: "",
+  phoneNumber: "",
+})
+
+  useEffect(()=>{
+    if (data && data){
+      setFormData({
+        email: data && data.user.email,
+        firstname: data && data.user.firstname,
+        lastname: data && data.user.lastname,
+        phoneNumber: data && data.user.phoneNumber,
+      })
+      // refetch()
+    }
+  },[data])
+
+  const handleChange = (e)=>{
+    const {name,value} = e.target
+    setFormData((p)=>({
+      ...p,
+      [name]:value
+    }))
+  }
+
+  const updateProfile = async (e)=>{
+    e.preventDefault
+
+    try {
+      const res = await updateUser({_id:id,...formData})
+      console.log("New Data User..............",res);
+      
+    } catch (error) {
+      
+    }
+  }
+  
   return (
     <>
       <div className="container" style={{margin:"40px",color:"white"}}>
         <h3 style={{marginBlock:"15px"}}><span style={{ textDecoration:"underline", textDecorationColor:"white",textDecorationThickness:"3px"}}>Upd</span>ate Profile</h3>
-        <form className="row g-3">
+        <form className="row g-3" onSubmit={updateProfile}>
           <div className="col-md-6">
             <label for="inputEmail4" className="form-label">
               Email
             </label>
-            <input type="email" className="form-control" id="inputEmail4" placeholder="abc@gmail.com"/>
+            <input type="email" name="email" className="form-control" id="inputEmail4" placeholder="Enter Email" value={formData.email}
+            onChange={handleChange}/>
           </div>
           <div className="col-md-6">
             <label for="inputUsername4" className="form-label">
-              Recuitername
+              First Name
             </label>
             <input
-              type="Username"
+              type="text"
+              name="firstname"
               className="form-control"
               id="inputUsername4"
-              placeholder="abc"
+              placeholder="Enter First Name"
+              value={formData.firstname}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="col-md-6">
+            <label for="inputUsername4" className="form-label">
+              Last Name
+            </label>
+            <input
+              type="text"
+              name="lastname"
+              className="form-control"
+              id="inputUsername4"
+              placeholder= "Enter Last Name"
+              value={formData.lastname}
+              onChange={handleChange}
             />
           </div>
          
          
           <div className="col-md-6">
             <label for="inputGender" className="form-label">
-              PhoneNumber
+              Phone Number
             </label>
-            <input type="text" className="form-control" id="inputGender" placeholder="phone Number"/>
+            <input type="text" name="phoneNumber" className="form-control" id="inputGender" placeholder="Enter Phone Number" value={formData.phoneNumber}
+            onChange={handleChange}/>
           </div>
           
           <div className="col-12" style={{textAlign:"center",marginTop:"40px"}}>

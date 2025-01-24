@@ -10,13 +10,9 @@ export const getRecuiterApplication = async (req, res, next) => {
 
     if(!id){
       next(new Error("Not Allowed"))
-    }
-
-    console.log("recuiter id....",id);
-    
+    }    
     
     const applications = await applicationModel.find({ "recuiter_id.user": id });
-    console.log("recuiter id...application....",applications);
     
     res.json({
       success: true,
@@ -31,9 +27,7 @@ export const getEmployerApplication = async (req, res, next) => {
   try {
     const { id } = req.user;    
 
-    const applications = await applicationModel.find({ "applicant_id.user": id });  
-    console.log("user application...",applications);
-      
+    const applications = await applicationModel.find({ "applicant_id.user": id });        
 
     res.json({
       success: true,
@@ -148,9 +142,6 @@ export const updateApplicationStatus = async (req, res, next) => {
   try {
     const { id, status } = req.params; 
 
-    console.log(id,status);
-    
-
     if (!["pending", "accept", "reject"].includes(status)) {
       return next(new Error("Invalid status"));
     }
@@ -161,9 +152,10 @@ export const updateApplicationStatus = async (req, res, next) => {
 
     const updateApplication = await applicationModel.findByIdAndUpdate(
       id,                 
-      { status: status },  
+      { status },  
       { new: true }        
     );
+    
     if (!updateApplication) {
       return next(new Error("Application not found"));
     }

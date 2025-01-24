@@ -19,15 +19,19 @@ export default function Recuiterapplication() {
 
   const [updateApplicationStatus] = useUpdateApplicationStatusMutation()
   const {data,isLoading,refetch} = useGetRecuiterApplicationQuery()
-  
+  const [newStatus,updateNewStatus] = React.useState()
   const {user} = useSelector(v=>v.auth)
   const dispatch = useDispatch()
 
-
+  console.log("application....",data && data);
+  
   const currentUserId = user?._id;
-  const filteredApplications = Array.isArray(data?.applications) 
-  ? data?.applications.filter(application => application.recuiter_id?.user === currentUserId)
-  : [];
+  const filteredApplications = React.useMemo(() => {
+    if (!data?.applications || !Array.isArray(data.applications)) return [];
+    return data.applications.filter(
+      (application) => application.recuiter_id?.user === currentUserId
+    );
+  }, [data, currentUserId]);
 
     React.useEffect(() => {
       const intervalId = setInterval(() => {
@@ -54,23 +58,26 @@ export default function Recuiterapplication() {
     }}>No Applications Found</h1>
   }
 
-  // const handleStatusUpdation = async(id,newstatus)=>{
-  //   console.log("id",id,"newstatus",newstatus);
-    
-  //   try {
-  //     const updatejob = await updateApplicationStatus({id:id,status:newstatus})
-  //     console.log("status updation",updatejob.data.updateApplication);
-  //     dispatch(statusUpdation(updatejob.data.updateApplication))
-  //     refetch()
-
-  //     if(updatejob.data.success === false){
-  //       toast.error(updatejob.data.message)
-  //     }
-      
-  //   } catch (error) {
-  //     console.error("Failed to update status")
-  //   }
-  // }
+  const handleStatusUpdation = async (id, newstatus) => {
+    console.log("id", id, "newstatus", newstatus);
+  
+    try {
+      const updatejob = await updateApplicationStatus({ id, status: newstatus });
+      console.log("status updation", updatejob.data.updateApplication);
+  
+      if (updatejob?.data?.success) {
+        dispatch(statusUpdation(updatejob.data.updateApplication)); 
+        await refetch();
+        toast.success("Status updated successfully!");
+      } else {
+        toast.error(updatejob?.data?.message || "Failed to update status.");
+      }
+    } catch (error) {
+      console.error("Failed to update status", error);
+      toast.error("An error occurred while updating status.");
+    }
+  };
+  
 
 
   return (
@@ -135,9 +142,9 @@ export default function Recuiterapplication() {
                   <TableCell align="left">{row.companyName}</TableCell>
                   <TableCell align="left">{row.status}</TableCell>
                 <TableCell align="left">
-                <span className="badge text-bg-success" onClick={()=>handleStatusUpdation(row._id,'accept')}>Accept</span>
-                <span className="badge text-bg-danger" style={{marginInline:"5px"}}onClick={()=>handleStatusUpdation(row._id,'reject')}>Reject</span>
-                <span className="badge text-bg-warning text-white" onClick={()=>handleStatusUpdation(row._id,'pending')}>Pending</span>
+                <span className="badge text-bg-success" style={{cursor:"pointer"}} onClick={()=>handleStatusUpdation(row._id,'accept')}>Accept</span>
+                <span className="badge text-bg-danger" style={{marginInline:"5px",cursor:"pointer"}}onClick={()=>handleStatusUpdation(row._id,'reject')}>Reject</span>
+                <span className="badge text-bg-warning text-white" style={{cursor:"pointer"}} onClick={()=>handleStatusUpdation(row._id,'pending')}>Pending</span>
                 </TableCell>
               </TableRow>
             ))}

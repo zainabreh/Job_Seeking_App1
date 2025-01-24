@@ -1,11 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { useGetSingleApplicationQuery } from "../../Redux/auth/application.api";
 
 const ApplicationView = () => {
   const { id } = useParams();
-  const { data } = useGetSingleApplicationQuery(id);
+  const { data,refetch } = useGetSingleApplicationQuery(id);
+
+  useEffect(()=>{
+    if (data && data){
+
+      refetch()
+    }
+  },[data])
+  
   const [preview, setPreview] = useState(undefined);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
