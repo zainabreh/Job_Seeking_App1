@@ -23,10 +23,7 @@ const LogIn = () => {
       }),
       onSubmit: async (v) => {
         try {
-          console.log("form data....",v);
-          const user= await loginUser(v).unwrap();
-          console.log("user....",user);
-          console.log("Cookies in the request:", document.cookie);
+          const user= await loginUser(v).unwrap()
           dispatch(setUserInfo(user))
           
           navigate("/")         

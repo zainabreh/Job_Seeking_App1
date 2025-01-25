@@ -1,16 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useLazyLogoutUserQuery } from "../../Redux/auth/auth.api";
+import { useLazyLogoutUserQuery, useSingleUserQuery } from "../../Redux/auth/auth.api";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUserInfo } from "../../Redux/Feature/auth.slice";
 
 const Navbar = () => {
 
+   const {user,key} = useSelector(v=>v.auth)  
+    const id = user?._id
+  
+    const {data,refetch}= useSingleUserQuery(id)
+  
+    useEffect(()=>{
+      if(data && data.user){      
+        refetch()
+      }
+    },[data])
+
   const dispatch = useDispatch()
 
-  const {user,key} = useSelector(v=>v.auth)  
 
-  const [logoutUser,{data}] = useLazyLogoutUserQuery()
+  const [logoutUser] = useLazyLogoutUserQuery()
 
 const handleLogOut = async ()=>{
   await logoutUser().unwrap()
@@ -48,9 +58,9 @@ const handleLogOut = async ()=>{
             </span>
           </div></Link>
           {
-            key && user ?
+            key && data?.user ?
              <div className="btn-group dropstart">
-               <img src={user?.avatar} alt="" style={{width:"40px",height:"40px",borderRadius:"50%"}}/>
+               <img src={data?.user.avatar} alt="" style={{width:"40px",height:"40px",borderRadius:"50%"}}/>
               <button
                 className="btn  dropdown-toggle"
                 type="button"
@@ -58,7 +68,7 @@ const handleLogOut = async ()=>{
                 aria-expanded="false"
                 style={{ outline: "none", border: "none", color: "white" }}
               >
-                 Hi, {user?.firstname}  {user?.lastname} 
+                 Hi, {data?.user.firstname}  {data?.user.lastname} 
               </button>
               <ul
                 className="dropdown-menu dropdown-menu-dark"
@@ -66,9 +76,9 @@ const handleLogOut = async ()=>{
               >
                 <li>
                   {
-                    user?.roles === "admin" ? ( <Link to={'/admin/admindashboard'} className="dropdown-item">
+                    data?.user.roles === "admin" ? ( <Link to={'/admin/admindashboard'} className="dropdown-item">
                       Dashboard
-                    </Link>) : (user?.roles === "recuiter" ? (<Link to={'/recuiter/recuiterdashboard'} className="dropdown-item">
+                    </Link>) : (data?.user.roles === "recuiter" ? (<Link to={'/recuiter/recuiterdashboard'} className="dropdown-item">
                       Dashboard
                     </Link>) : (<Link to={'userdashboard'} className="dropdown-item">
                     Dashboard

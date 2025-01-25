@@ -10,8 +10,11 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         setUserInfo:(state,action)=>{
-            state.user = action.payload.user
-            state.key = action.payload.jwt_key 
+            state.user = {...state.user,...action.payload.user}
+
+            if(action.payload.jwt_key){
+                state.key = action.payload.jwt_key 
+            }
         },
        
         clearUserInfo: (state,action)=>{

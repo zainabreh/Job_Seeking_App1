@@ -55,12 +55,11 @@ export const updateUser = async (req,res,next)=>{
         const {id} = req.params
         const data = req.body
 
-        console.log("Idxxxxxxxxxxxxxxxx",id,"         formDatavvvvvvvvvvvvvvv",data);
-
-        const updateUser = await userModel.findByIdAndUpdate(id,data)
+        const user = await userModel.findByIdAndUpdate(id,data)
+        console.log("updateUser....",user);
         
         res.json({
-            updateUser,
+            user,
             message:"user updated"
         })
     } catch (error) {

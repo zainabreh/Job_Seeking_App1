@@ -1,7 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Userupdateprofile = () => {
+  const {id} = useParams()
+  
   return (
     <>
       <div className="container" style={{margin:"40px",color:"white"}}>

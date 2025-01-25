@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSingleUserQuery, useUpdateUserMutation } from "../../Redux/auth/auth.api";
+import { useDispatch } from "react-redux";
+import { setUserInfo } from "../../Redux/Feature/auth.slice";
 
 const Recuiterupdaterofile = () => {
   const {id} = useParams()
-
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [updateUser] = useUpdateUserMutation()
   const {data,refetch} = useSingleUserQuery(id)  
+
 
 const [formData,setFormData] = useState({
   email: "",
@@ -23,7 +27,7 @@ const [formData,setFormData] = useState({
         lastname: data && data.user.lastname,
         phoneNumber: data && data.user.phoneNumber,
       })
-      // refetch()
+      refetch()
     }
   },[data])
 
@@ -36,13 +40,14 @@ const [formData,setFormData] = useState({
   }
 
   const updateProfile = async (e)=>{
-    e.preventDefault
+    e.preventDefault()
 
-    try {
-      const res = await updateUser({_id:id,...formData})
-      console.log("New Data User..............",res);
-      
+    try {      
+      const res = await updateUser({_id:id,formData}).unwrap()
+      dispatch(setUserInfo({user: res.user}))
+      navigate('/recuiter/recuiterProfileCard')
     } catch (error) {
+      console.log("updation error");
       
     }
   }
@@ -98,10 +103,10 @@ const [formData,setFormData] = useState({
           </div>
           
           <div className="col-12" style={{textAlign:"center",marginTop:"40px"}}>
-            <Link to={"/recuiter/recuiterProfileCard"}><button type="submit" className="btn" style={{fontSize:"16.5px",backgroundColor:"white"}}>
+            <button type="submit" className="btn" style={{fontSize:"16.5px",backgroundColor:"white"}}>
              Update Profile
             </button>
-            </Link>
+            
           </div>
         </form>
       </div>
