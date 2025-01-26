@@ -78,7 +78,6 @@ const Signup = () => {
     const read = new FileReader();
     read.onload = () => {
       if (read.readyState === 2) {
-        console.log("inside ready state");
         setFieldValue("avatar", read.result);
         setPreview(read.result);
       }

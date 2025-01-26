@@ -2,17 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useLazyLogoutUserQuery, useSingleUserQuery } from "../../Redux/auth/auth.api";
 import { useDispatch, useSelector } from "react-redux";
-import { clearUserInfo } from "../../Redux/Feature/auth.slice";
+import { clearUserInfo } from "../../Redux/Feature/auth.slice.js";
 
 const Navbar = () => {
 
    const {user,key} = useSelector(v=>v.auth)  
     const id = user?._id
   
-    const {data,refetch}= useSingleUserQuery(id)
+    const {data,refetch}= useSingleUserQuery(id)  
   
-    useEffect(()=>{
-      if(data && data.user){      
+  useEffect(()=>{
+    if(data && data.user){      
         refetch()
       }
     },[data])
@@ -58,7 +58,7 @@ const handleLogOut = async ()=>{
             </span>
           </div></Link>
           {
-            key && data?.user ?
+            data?.user && key ?
              <div className="btn-group dropstart">
                <img src={data?.user.avatar} alt="" style={{width:"40px",height:"40px",borderRadius:"50%"}}/>
               <button
@@ -107,8 +107,7 @@ const handleLogOut = async ()=>{
            <Link to={"/signup"}>
            <button className="btn custom-btn" style={{marginInline:"10px"}}>SignUp</button>
            </Link>
-          </div>
-           
+          </div>   
           </>
           }
           

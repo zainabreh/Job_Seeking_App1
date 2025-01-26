@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useSingleUserQuery } from "../../Redux/auth/auth.api";
 
 const Sidebar = () => {
   const { user, key } = useSelector((v) => v.auth);
+  const id = user?._id
+
+  const {data,refetch}= useSingleUserQuery(id)  
+
+useEffect(()=>{
+  if(data && data.user){      
+      refetch()
+    }
+  },[data])
 
   return (
     <>
@@ -13,10 +23,10 @@ const Sidebar = () => {
           {/* Profile Picture*/}
           
             <li className="nav-item">
-              <div>
-                <img src={user?.avatar} alt="" style={{width:"70px",height:"70px",borderRadius:"50%"}}/>
-                <p className="nav-list" aria-current="page" style={{fontSize:"20px",marginBlock:"15px",marginLeft:"15px"}}>
-                  {user?.username}
+              <div style={{display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column"}}>
+                <img src={data?.user.avatar} alt="" style={{width:"70px",height:"70px",borderRadius:"50%"}}/>
+                <p className="nav-list" aria-current="page" style={{fontSize:"20px",marginBlock:"15px"}}>
+                  {data?.user.username}
                 </p>
               </div>
             </li>
@@ -26,7 +36,7 @@ const Sidebar = () => {
 
 
           {/* User */}
-          {user?.roles === "user" && (
+          {data?.user.roles === "user" && (
             <li className="nav-item">
               <Link to={"usepProfileCard"}>
                 <div
@@ -53,7 +63,7 @@ const Sidebar = () => {
             </li>
           )}
 
-          {user?.roles === "user" && (
+          {data?.user.roles === "user" && (
             <li className="nav-item">
               <Link to={"userapplication"}>
                 <div
@@ -82,7 +92,7 @@ const Sidebar = () => {
 
 
           {/* Recuiter */}
-          {user?.roles === "recuiter" && (
+          {data?.user.roles === "recuiter" && (
             <li className="nav-item">
               <Link to={"/recuiter/recuiterProfileCard"}>
                 <div
@@ -109,7 +119,7 @@ const Sidebar = () => {
             </li>
           )}
 
-          {user?.roles === "recuiter" && (
+          {data?.user.roles === "recuiter" && (
             <li className="nav-item">
               <Link to={"/recuiter/recuiterapplication"}>
                 <div
@@ -136,7 +146,7 @@ const Sidebar = () => {
             </li>
           )}
 
-          {user?.roles === "recuiter" && (
+          {data?.user.roles === "recuiter" && (
             <li className="nav-item">
               <Link to={"/recuiter/addjob"}>
                 <div
@@ -163,7 +173,7 @@ const Sidebar = () => {
             </li>
           )}
 
-          {user?.roles === "recuiter" && (
+          {data?.user.roles === "recuiter" && (
             <li className="nav-item">
               <Link to={"/recuiter/manageJobs"}>
                 <div
@@ -192,7 +202,7 @@ const Sidebar = () => {
 
           {/* Admin */}
 
-          {user?.roles === "admin" && (
+          {data?.user.roles === "admin" && (
             <li className="nav-item">
               <Link to={"/admin/adminprofilecard"}>
                 <div
@@ -219,7 +229,7 @@ const Sidebar = () => {
             </li>
           )}
 
-          {user?.roles === "admin" && (
+          {data?.user.roles === "admin" && (
             <li className="nav-item">
               <Link to={"/admin/adminStatus"}>
                 <div
@@ -246,7 +256,7 @@ const Sidebar = () => {
             </li>
           )}
 
-          {user?.roles === "admin" && (
+          {data?.user.roles === "admin" && (
             <li className="nav-item">
               <Link to={"/admin/manageUsers"}>
                 <div
@@ -273,7 +283,7 @@ const Sidebar = () => {
             </li>
           )}
 
-          {user?.roles === "admin" && (
+          {data?.user.roles === "admin" && (
             <li className="nav-item">
               <Link to={"/admin/addcategory"}>
                 <div

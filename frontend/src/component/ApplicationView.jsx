@@ -6,10 +6,9 @@ import { useGetSingleApplicationQuery } from "../../Redux/auth/application.api";
 const ApplicationView = () => {
   const { id } = useParams();
   const { data,refetch } = useGetSingleApplicationQuery(id);
-
+  
   useEffect(()=>{
     if (data && data){
-
       refetch()
     }
   },[data])

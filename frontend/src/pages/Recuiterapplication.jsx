@@ -22,8 +22,6 @@ export default function Recuiterapplication() {
   const [newStatus,updateNewStatus] = React.useState()
   const {user} = useSelector(v=>v.auth)
   const dispatch = useDispatch()
-
-  console.log("application....",data && data);
   
   const currentUserId = user?._id;
   const filteredApplications = React.useMemo(() => {
@@ -59,11 +57,9 @@ export default function Recuiterapplication() {
   }
 
   const handleStatusUpdation = async (id, newstatus) => {
-    console.log("id", id, "newstatus", newstatus);
   
     try {
       const updatejob = await updateApplicationStatus({ id, status: newstatus });
-      console.log("status updation", updatejob.data.updateApplication);
   
       if (updatejob?.data?.success) {
         dispatch(statusUpdation(updatejob.data.updateApplication)); 

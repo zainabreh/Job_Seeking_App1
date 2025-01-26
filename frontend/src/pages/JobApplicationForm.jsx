@@ -20,17 +20,16 @@ const JobApplicationForm = () => {
 
   const {user} = useSelector((v)=>v.auth)
   
-
   const formik = useFormik({
     initialValues: {
       name: `${user && user.firstname} ${user && user.lastname} `,
-      companyName: data && data.job.company,
+      companyName: data && data.company,
       userEmail: user && user.email,
       phone: user && user.phoneNumber,
-      position: data && data.job.position,
+      position: data && data.position,
       coverLetter: "",
       resume: "",
-      companyEmail: data && data.job.email
+      companyEmail: data && data.email
     },
     validationSchema: yup.object({
       coverLetter: yup.string(),
@@ -39,7 +38,6 @@ const JobApplicationForm = () => {
     onSubmit: async (values, { setSubmitting }) => {  
       
       const application = await createApplication({...values,id})
-      console.log("form data",application.data?.application);
       
       dispatch(addApplication(application))
       // setSubmitting(false);
@@ -51,7 +49,6 @@ const JobApplicationForm = () => {
     const read = new FileReader();
     read.onload = () => {
       if (read.readyState === 2) {
-        console.log("inside ready state");
         formik.setFieldValue("resume", read.result);
       }
     };

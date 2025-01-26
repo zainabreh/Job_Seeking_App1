@@ -8,9 +8,7 @@ const applicationSlice = createSlice({
     name:'Application',
     initialState,
     reducers: {
-        addApplication: (state,action)=>{
-            console.log("appliaSLICE",current(state));
-        
+        addApplication: (state,action)=>{        
             state.userApplication.push(action.payload)
         },
         removeApplication: (state,action) => {            

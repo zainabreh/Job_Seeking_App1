@@ -90,7 +90,6 @@ export const createJob = async (req, res, next) => {
     //   { $push: { jobs: job._id} },
     //   { new: true } 
     // );  
-console.log("create job....",job);
 
     res.json({
       message: "Job created successfully",
@@ -161,7 +160,6 @@ export const deleteJob = async (req, res, next) => {
       return next(new Error("You'r not allowed to delete this job"));
     }
     deleteJob = await jobModel.findByIdAndDelete(id);
-    console.log("job deleted successfully");
   } catch (error) {
     next(error);
   }

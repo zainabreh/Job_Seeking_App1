@@ -24,6 +24,7 @@ const LogIn = () => {
       onSubmit: async (v) => {
         try {
           const user= await loginUser(v).unwrap()
+          
           dispatch(setUserInfo(user))
           
           navigate("/")         

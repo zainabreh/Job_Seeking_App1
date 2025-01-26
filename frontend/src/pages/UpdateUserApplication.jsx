@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useCreateApplicationMutation, useGetSingleApplicationQuery, useUpdateApplicationMutation } from "../../Redux/auth/application.api";
 import { addApplication } from "../../Redux/Feature/application.slice";
+import { useSingleUserQuery } from "../../Redux/auth/auth.api";
 
 const UpdateUserApplication = () => {
 
@@ -17,7 +18,6 @@ const UpdateUserApplication = () => {
   const [updateApplication,{isLoading}]= useUpdateApplicationMutation()
 
   const {data,refetch} = useGetSingleApplicationQuery(id) 
-  console.log("data....",data && data.applications.position);
    
 useEffect(()=>{
   if(data && data){
@@ -25,14 +25,24 @@ useEffect(()=>{
   }
 },[data])
   const {user} = useSelector((v)=>v.auth)
+
+    const Uid = user?._id
+  
+    const {data:logUser,refetch:refec}= useSingleUserQuery(Uid)  
+  
+  useEffect(()=>{
+    if(logUser && logUser.user){      
+      refec()
+      }
+    },[data])
   
 
   const formik = useFormik({
     initialValues: {
-      name: user && user ? `${user && user.firstname} ${user && user.lastname} ` : "",
+      name:logUser && logUser.user ? `${ logUser.user.firstname} ${ logUser.user.lastname} ` : "",
       companyName: data && data.applications.companyName,
-      userEmail: user && user ? user && user.email : "",
-      phone: user && user ? user && user.phoneNumber : "",
+      userEmail: logUser && logUser.user ? logUser.user.email : "",
+      phone: logUser && logUser.user ? logUser.user.phoneNumber : "",
       position: data && data.applications.position,
       coverLetter: data && data.applications.coverLetter,
       resume: data && data.applications.resume,
@@ -45,7 +55,6 @@ useEffect(()=>{
     onSubmit: async (values, { setSubmitting }) => {  
       
       const application = await updateApplication({values,id}).unwrap()
-      console.log("form data",application);
       
       dispatch(addApplication(application))
       // setSubmitting(false);
@@ -57,7 +66,6 @@ useEffect(()=>{
     const read = new FileReader();
     read.onload = () => {
       if (read.readyState === 2) {
-        console.log("inside ready state");
         formik.setFieldValue("resume", read.result);
       }
     };

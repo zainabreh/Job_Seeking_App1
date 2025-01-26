@@ -27,7 +27,6 @@ export default function JobContainer({ search }) {
 
   const { category:cat } = useSelector((v) => v.category);
   const {data:categ} = useGetAllCategoryQuery()
-  // console.log("categories...",categ && categories[0]);
   
 
   const { data, error, isLoading } = useGetAllJobsQuery({
@@ -37,7 +36,7 @@ export default function JobContainer({ search }) {
     location,
     page,
     category
-  });  
+  });    
 
   const dispatch = useDispatch();  
 

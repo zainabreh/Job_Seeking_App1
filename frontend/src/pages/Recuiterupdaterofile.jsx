@@ -17,6 +17,7 @@ const [formData,setFormData] = useState({
   firstname: "",
   lastname: "",
   phoneNumber: "",
+  username:""
 })
 
   useEffect(()=>{
@@ -26,6 +27,7 @@ const [formData,setFormData] = useState({
         firstname: data && data.user.firstname,
         lastname: data && data.user.lastname,
         phoneNumber: data && data.user.phoneNumber,
+        username: data && data.user.username
       })
       refetch()
     }
@@ -90,6 +92,21 @@ const [formData,setFormData] = useState({
               placeholder= "Enter Last Name"
               value={formData.lastname}
               onChange={handleChange}
+            />
+          </div>
+
+          <div className="col-md-6">
+            <label for="inputUsername4" className="form-label">
+              User Name
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="inputUsername4"
+              placeholder="Enter User Name"
+              name="username" 
+              onChange={handleChange}
+              value={formData.username}
             />
           </div>
          

@@ -17,9 +17,7 @@ function createData(No, position, company, status) {
 
 export default function Userapplication() {
 
-  const {data,error,isLoading,refetch} = useGetUserApplicationQuery()
-  console.log("userApplication....",data && data);
-  
+  const {data,error,isLoading,refetch} = useGetUserApplicationQuery()  
   
   const [delteApplication] = useDelteApplicationMutation()
   const {user} = useSelector((v)=>v.auth)

@@ -1,29 +1,108 @@
-import React from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import {setUserInfo} from "../../Redux/Feature/auth.slice.js"
+import { useSingleUserQuery, useUpdateUserMutation } from "../../Redux/auth/auth.api";
 
 const Userupdateprofile = () => {
   const {id} = useParams()
+  const {user} = useSelector((v)=>v.auth)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+    const [updateUser] = useUpdateUserMutation()
+    const {data,refetch} = useSingleUserQuery(id)
   
+
+ const [formData,setFormData] = useState({
+   email: "",
+   firstname: "",
+   lastname: "",
+   phoneNumber: "",
+   username:""
+ })
+
+ const handleChange = (e)=>{
+  const {name,value} = e.target
+  setFormData((pre)=>({
+    ...pre,
+    [name]:value
+  }))
+ }
+
+ const updateProfile = async (e)=>{
+    e.preventDefault()
+
+    try {      
+      const res = await updateUser({_id:id,formData}).unwrap()      
+      dispatch(setUserInfo({user: res.user}))
+      navigate('/usepProfileCard')
+    } catch (error) {
+      console.log("updation error");
+      
+    }
+  }
+
+  useEffect(()=>{
+    if (data && data){
+      setFormData({
+        email: data && data.user.email,
+        firstname: data && data.user.firstname,
+        lastname: data && data.user.lastname,
+        phoneNumber: data && data.user.phoneNumber,
+        username: data && data.user.username
+      })
+      refetch()
+    }
+  },[data])
+
   return (
     <>
       <div className="container" style={{margin:"40px",color:"white"}}>
         <h3 style={{marginBlock:"15px"}}><span style={{ textDecoration:"underline", textDecorationColor:"white",textDecorationThickness:"3px"}}>Upd</span>ate Profile</h3>
-        <form className="row g-3">
+        <form className="row g-3" onSubmit={updateProfile}>
           <div className="col-md-6">
             <label for="inputEmail4" className="form-label">
               Email
             </label>
-            <input type="email" className="form-control" id="inputEmail4" placeholder="abc@gmail.com"/>
+            <input type="email" name="email" onChange={handleChange} className="form-control" id="inputEmail4" placeholder="Enter Email" value={formData.email}/>
           </div>
           <div className="col-md-6">
             <label for="inputUsername4" className="form-label">
-              Username
+              First Name
             </label>
             <input
-              type="Username"
+              type="text"
               className="form-control"
               id="inputUsername4"
-              placeholder="abc"
+              placeholder="Enter First Name" name="firstname" value={formData.firstname} onChange={handleChange}
+            />
+          </div>
+          <div className="col-md-6">
+            <label for="inputUsername4" className="form-label">
+              Last Name
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="inputUsername4"
+              placeholder="Enter Last Name"
+              name="lastname" 
+              onChange={handleChange}
+              value={formData.lastname}
+            />
+          </div>
+          <div className="col-md-6">
+            <label for="inputUsername4" className="form-label">
+              User Name
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="inputUsername4"
+              placeholder="Enter User Name"
+              name="username" 
+              onChange={handleChange}
+              value={formData.username}
             />
           </div>
          
@@ -32,14 +111,13 @@ const Userupdateprofile = () => {
             <label for="inputGender" className="form-label">
               PhoneNumber
             </label>
-            <input type="text" className="form-control" id="inputGender" placeholder="phone Number"/>
+            <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} className="form-control" id="inputGender" placeholder="phone Number"/>
           </div>
           
           <div className="col-12" style={{textAlign:"center",marginTop:"40px"}}>
-            <Link to={"/usepProfileCard"}><button type="submit" className="btn" style={{fontSize:"16.5px",backgroundColor:"white"}}>
+            <button type="submit" className="btn" style={{fontSize:"16.5px",backgroundColor:"white"}}>
              Update Profile
             </button>
-            </Link>
           </div>
         </form>
       </div>
