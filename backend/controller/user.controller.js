@@ -3,7 +3,8 @@ import userModel from "../model/user.model.js"
 
 export const getAllUsers = async (req,res,next)=>{
     try {
-        const users = await userModel.find()
+        const users = await userModel.find({})
+
         res.json({
             message:"All user ",
             users

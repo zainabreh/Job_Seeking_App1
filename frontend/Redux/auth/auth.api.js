@@ -58,6 +58,12 @@ export const authApi = createApi({
         url: `/user/singleuser/${id}`,
         method: 'GET'
       })
+    }),
+    allUser: builder.query({
+      query: ()=>({
+        url:"/user/all",
+        method:'GET'
+      })
     })
   }),
 
@@ -68,6 +74,7 @@ export const {
   useLoginUserMutation,
   useLazyLogoutUserQuery,
   useUpdateUserMutation,
-  useSingleUserQuery
+  useSingleUserQuery,
+  useAllUserQuery
   // useGetProfileQuery,
 } = authApi;

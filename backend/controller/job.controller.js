@@ -36,14 +36,14 @@ export const getAllJobs = async (req, res, next) => {
     const total = await jobModel.countDocuments(query)
         
     res.status(200).json({
-      jobs:jobs,
+      job:jobs,
       success:true,
       page:parseInt(page),
       total,
       pages:Math.ceil(total/limit)
     });
   } catch (error) {
-    next(error);
+    next(new Error("Error Getting Jobs..."));
   }
 };
 export const getjobByid = async (req, res, next) => {

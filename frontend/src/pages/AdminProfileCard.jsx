@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useSingleUserQuery } from "../../Redux/auth/auth.api";
 
 const AdminProfileCard = () => {
   const {user} = useSelector(v=>v.auth)
+  
+  const uId = user?._id
+  const {data:logUser,refetch} = useSingleUserQuery(uId)
+
+  useEffect(()=>{
+    if(logUser && logUser.user){
+      refetch()
+    }
+  },[logUser])
 
   return (
     <>
@@ -30,25 +40,25 @@ const AdminProfileCard = () => {
                       <td scope="col" style={{ fontWeight: "600" }}>
                         AdminName:
                       </td>
-                      <td style={{fontWeight:"600"}}>{user?.firstname} {user?.lastname}</td>
+                      <td style={{fontWeight:"600"}}>{logUser?.user.firstname} {logUser?.user.lastname}</td>
                     </tr>
                     <tr>
                       <td scope="col" style={{ fontWeight: "600"}}>
                         Role:
                       </td>
-                      <td style={{fontWeight:"600"}}>{user?.roles}</td>
+                      <td style={{fontWeight:"600"}}>{logUser?.user.roles}</td>
                     </tr>
                     <tr>
                       <td scope="col" style={{ fontWeight: "600"}}>
                         Email:
                       </td>
-                      <td style={{fontWeight:"600"}}>{user?.email}</td>
+                      <td style={{fontWeight:"600"}}>{logUser?.user.email}</td>
                     </tr>
                     <tr>
                       <td scope="col" style={{ fontWeight: "600" }}>
                         PhoneNumber:
                       </td>
-                      <td style={{fontWeight:"600"}}>{user?.phoneNumber}</td>
+                      <td style={{fontWeight:"600"}}>{logUser?.user.phoneNumber}</td>
                     </tr>
                     <tr>
                       <td scope="col" style={{ fontWeight: "600" }}>
@@ -61,11 +71,11 @@ const AdminProfileCard = () => {
                       <td scope="col" style={{ fontWeight: "600" }}>
                         Gender:
                       </td>
-                      <td style={{fontWeight:"600"}}>{user?.gender}</td>
+                      <td style={{fontWeight:"600"}}>{logUser?.user.gender}</td>
                     </tr>
                   </tbody>
                 </table>
-               <Link to={"/admin/adminupdateprofile"}> <p className="edite" style={{textAlign:"justify",fontSize:"20px",fontWeight:"bolder", padding:"20px"}}><i className="fa-solid fa-pen-to-square"></i> Edit</p></Link>
+               <Link to={`/admin/adminupdateprofile/${logUser?.user._id}`}> <p className="edite" style={{textAlign:"justify",fontSize:"20px",fontWeight:"bolder", padding:"20px"}}><i className="fa-solid fa-pen-to-square"></i> Edit</p></Link>
               </div>
             </div>
           </div>

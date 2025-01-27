@@ -4,6 +4,24 @@ import jobModel from "../model/job.model.js"
 import mongoose from "mongoose";
 
 
+export const getAllApplication = async (req,res,next)=>{
+  try {
+    const applications = await applicationModel.find({})
+
+    console.log("applications...........",applications);
+    
+
+    res.status(200).json({
+      message:"All applications ",
+      applications
+  })
+  } catch (error)  {
+    console.error("Error fetching applications:", error.message);
+  }
+} 
+
+
+
 export const getRecuiterApplication = async (req, res, next) => {  
   try {
     const { id } = req.user;

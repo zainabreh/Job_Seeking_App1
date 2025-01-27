@@ -63,6 +63,12 @@ export const applicationApi = createApi({
                 providesTags: ['Application'],
             })
         }),
+        getAllApplication: builder.query({
+            query: ()=>({
+                url:"/applications/all",
+                method:"GET",
+            })
+        }),
         getRecuiterApplication: builder.query({
             query: ()=>({
                 url:"/applications/recuiterAll",
@@ -85,4 +91,4 @@ export const applicationApi = createApi({
     })
 })
 
-export const {useCreateApplicationMutation,useUpdateApplicationStatusMutation,useGetUserApplicationQuery,useGetRecuiterApplicationQuery,useUpdateApplicationMutation,useDelteApplicationMutation,useGetSingleApplicationQuery} = applicationApi
+export const {useCreateApplicationMutation,useUpdateApplicationStatusMutation,useGetUserApplicationQuery,useGetRecuiterApplicationQuery,useUpdateApplicationMutation,useDelteApplicationMutation,useGetAllApplicationQuery,useGetSingleApplicationQuery} = applicationApi

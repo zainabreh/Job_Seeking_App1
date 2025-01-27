@@ -17,7 +17,11 @@ const jobSchema = new Schema({
   salary: Number,
   email: String,
   location: String,
-  status:String,
+  status:{
+    type:String,
+    default:'pending',
+    enum:['full-time','part-time','internship'],
+  },
   postedBy : {
     type:mongoose.Schema.ObjectId,
     ref:"user",

@@ -1,5 +1,5 @@
 import express from 'express'
-import { createApplication, deleteApplication, getEmployerApplication, getRecuiterApplication, getSingleApplication, updateApplication, updateApplicationStatus,  } from '../controller/application.controller.js'
+import { createApplication, deleteApplication, getAllApplication, getEmployerApplication, getRecuiterApplication, getSingleApplication, updateApplication, updateApplicationStatus,  } from '../controller/application.controller.js'
 import { isAuthenticated, isAuthorized } from '../middleware/auth.middleware.js'
 
 const router = express.Router()
@@ -7,6 +7,7 @@ const router = express.Router()
 router.route('/applications/employerAll').get(isAuthenticated,isAuthorized("user"),getEmployerApplication)
 
 router.route('/applications/recuiterAll').get(isAuthenticated,isAuthorized("recuiter"),getRecuiterApplication)
+router.route('/applications/all').get(isAuthenticated,isAuthorized("admin"),getAllApplication)
 
 router.route('/applications/:id').get(isAuthenticated,isAuthorized("user","recuiter"),getSingleApplication)
 
