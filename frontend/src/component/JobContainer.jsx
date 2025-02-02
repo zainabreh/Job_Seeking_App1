@@ -42,10 +42,10 @@ export default function JobContainer({ search }) {
 
   React.useEffect(() => {
 
-    if (data && data?.jobs) {
-      setProducts(data.jobs);
-      setTotalPages(data.pages);
-      dispatch(setjob(data.jobs));
+    if (data && data?.job) {
+      setProducts(data?.job);
+      setTotalPages(data?.pages);
+      dispatch(setjob(data?.job));
     }
   }, [data,products,search,category,page,location,status]);
 

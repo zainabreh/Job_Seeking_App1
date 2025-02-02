@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useLoginUserMutation } from "../../Redux/auth/auth.api";
 import { useDispatch } from "react-redux";
 import { setUserInfo } from "../../Redux/Feature/auth.slice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/ReactToastify.css";
 
 const LogIn = () => {
   const [loginUser,{data,isLoading,error}] = useLoginUserMutation()
@@ -22,21 +24,26 @@ const LogIn = () => {
         password: yup.string().required("Required"),
       }),
       onSubmit: async (v) => {
+        console.log("u data.........",v);
+        
         try {
           const user= await loginUser(v).unwrap()
+          console.log("1111111111",user && user);
           
           dispatch(setUserInfo(user))
           
-          navigate("/")         
-          // if (user.success) {
-          //   setApimsg(user.message);
+          // navigate("/")         
+          if (user?.success) {
+            setApimsg(user?.message);
+            toast.success("LogIn successfully!");
             
-          //   navigate('/')
-          // } else {
-          //   setApimsg({ success: false, message: user.message });
-          // }
+            navigate('/')
+          } else {
+            setApimsg({ success: false, message: user?.message });
+            toast.error(user?.message || "Failed to LogIn.");
+          }
         } catch (error) {
-          console.log(error);
+         toast.error("An error occurred");
           
         }
         handleReset()
@@ -46,6 +53,7 @@ const LogIn = () => {
   return (
     <>
       <div className="container" style={{ width: "400px", padding: "20px" }}>
+         <ToastContainer />
         <div className="card">
           <div className="card-body">
             <div className="logo">

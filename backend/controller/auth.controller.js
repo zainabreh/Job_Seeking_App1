@@ -28,7 +28,7 @@ export const signup = async (req, res, next) => {
       });
     }
   } catch (error) {
-    next(error);
+    next(new Error("Unable to SignUp,Try Again..."));
   }
 };
 
@@ -47,6 +47,9 @@ export const login = async (req, res, next) => {
 
     if (!logpassword) return next(new Error("Invalid Password"));
     
+    console.log("users.............",user);
+    
+
     const jwt_key = jwt.sign(
       {
         id: user._id,
@@ -57,7 +60,7 @@ export const login = async (req, res, next) => {
       process.env.TOKEN,
       { expiresIn: "2h" }
     );        
-
+    
     res.cookie("auth", jwt_key, {
       maxAge: 2 * 60 * 60 * 1000, 
       httpOnly: true,
@@ -82,8 +85,9 @@ export const logout = (req, res, next) => {
     res.cookie("auth", null, { expiresIn: new Date(Date.now()),maxAge: 0, httpOnly: true,  sameSite: 'none', secure: true })
     .json({
       message: "logout successfully",
+      success: true
     });
   } catch (error) {
-    next(error);
+    next(new Error("Unable to LogOut"));
   }
 };

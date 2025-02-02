@@ -54,13 +54,32 @@ export const createNewUser = async (req,res,next)=>{
 export const updateUser = async (req,res,next)=>{
     try {
         const {id} = req.params
-        const data = req.body
+        const data = req.body        
 
-        const user = await userModel.findByIdAndUpdate(id,data)
+        const user = await userModel.findByIdAndUpdate(id,data)        
         
         res.json({
             user,
             message:"user updated"
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+export const updateUserRole = async (req,res,next)=>{
+    try {
+        const {id,role} = req.params        
+
+        const user = await userModel.findByIdAndUpdate(
+            id,
+            {roles:role},
+            {new:true}
+        )        
+        
+        res.json({
+            user,
+            message:"user updated",
+            success: true
         })
     } catch (error) {
         next(error)

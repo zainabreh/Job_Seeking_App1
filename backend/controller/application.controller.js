@@ -7,8 +7,6 @@ import mongoose from "mongoose";
 export const getAllApplication = async (req,res,next)=>{
   try {
     const applications = await applicationModel.find({})
-
-    console.log("applications...........",applications);
     
 
     res.status(200).json({

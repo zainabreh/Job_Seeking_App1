@@ -6,8 +6,7 @@ import { useGetAllApplicationQuery } from '../../Redux/auth/application.api'
 const Admin = () => {
     const {data:users} = useAllUserQuery()
     const {data:jobs} = useGetAllJobsQuery()
-    const {data,error} = useGetAllApplicationQuery()
-    console.log("applications........",data && data);
+    const {data,error} = useGetAllApplicationQuery()    
     
     const [appCount,setAppCount] = useState({
         pending: 0,
@@ -35,15 +34,15 @@ const Admin = () => {
             })
         }
 
-        if(jobs?.job){
-            const pend = jobs?.job.filter((stat)=>stat.status.includes('pending')).length
-            const accep = jobs?.job.filter((stat)=>stat.status.includes('accept')).length
-            const rejec = jobs?.job.filter((stat)=>stat.status.includes('reject')).length
+        if(data?.applications){
+            const pend = data?.applications.filter((stat)=>stat.status.includes('pending')).length
+            const accep = data?.applications.filter((stat)=>stat.status.includes('accept')).length
+            const rejec = data?.applications.filter((stat)=>stat.status.includes('reject')).length
 
             setAppCount({
                 pending: pend,
-                reject: accep,
-                accept: rejec
+                reject: rejec,
+                accept: accep
             })
         }
 

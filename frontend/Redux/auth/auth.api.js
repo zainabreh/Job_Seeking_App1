@@ -53,6 +53,35 @@ export const authApi = createApi({
         body: data.formData
       })
     }),
+    updateUserRole: builder.mutation({
+      query: (data) => ({
+        url: `/user/updateUserRole/${data.id}/${data.roles}`,
+        method: 'PUT',
+      }),
+       async onQueryStarted({ id, roles }, { dispatch, queryFulfilled }) {
+                      try {
+                        const { data } = await queryFulfilled;
+                  
+                        // Manually update the cache for useGetRecuiterApplicationQuery
+                        dispatch(
+                          authApi.util.updateQueryData(
+                            "allUser",
+                            undefined,
+                            (draft) => {
+                              const user = draft.user.find(
+                                (app) => app._id === id
+                              );
+                              if (user) {
+                                user.roles = roles; // Update the status directly
+                              }
+                            }
+                          )
+                        );
+                      } catch (error) {
+                        console.error("Error updating status in cache:", error);
+                      }
+                    },
+    }),
     singleUser: builder.query({
       query: (id)=>({
         url: `/user/singleuser/${id}`,
@@ -74,6 +103,7 @@ export const {
   useLoginUserMutation,
   useLazyLogoutUserQuery,
   useUpdateUserMutation,
+  useUpdateUserRoleMutation,
   useSingleUserQuery,
   useAllUserQuery
   // useGetProfileQuery,
