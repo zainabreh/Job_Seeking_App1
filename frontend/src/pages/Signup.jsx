@@ -1,9 +1,9 @@
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import * as yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRegisterUserMutation } from "../../Redux/auth/auth.api.js";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/ReactToastify.css";
 import { useDispatch } from "react-redux";
 import { setUserInfo } from "../../Redux/Feature/auth.slice.js";
@@ -12,6 +12,7 @@ const Signup = () => {
   const [preview, setPreview] = useState(undefined);
   const [apimsg, setApimsg] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const [registerUser, { isLoading, error, data }] = useRegisterUserMutation();
 
   const {
@@ -55,18 +56,31 @@ const Signup = () => {
       delete v.cpassword;
 
       const user = await registerUser(v).unwrap();
-      dispatch(setUserInfo(user)); 
-          
+      // dispatch(setUserInfo(user));
+
       // toast.success("User Registered Successfully");
 
-      if (user) {
-        setApimsg(user);
-      } else {
-        setApimsg({
-          success: false,
-          error: "Something went wrong",
-        });
-      }
+      // if (user) {
+      //   setApimsg(user);
+      // } else {
+      //   setApimsg({
+      //     success: false,
+      //     error: "Something went wrong",
+      //   });
+
+        if (user?.success) {
+          dispatch(setUserInfo(user));
+          setApimsg(user?.message);
+          navigate("/");
+          toast.success("User Registered Successfully!", {
+            toastId: "signIn-success",
+          });
+          
+        } else {
+          setApimsg({ success: false, message: user?.message });
+          toast.error(user?.message || "Failed to LogIn.");
+        }
+      
 
       handleReset();
       setPreview(undefined);
@@ -87,9 +101,7 @@ const Signup = () => {
 
   return (
     <>
-      <ToastContainer />
       <div className="container" style={{ width: "800px", padding: "20px" }}>
-        
         <div className="card">
           <div className="card-body">
             <div className="logo">
@@ -111,15 +123,15 @@ const Signup = () => {
 
             <h3 className="card-title text-center">Register</h3>
             {apimsg && (
-          <div
-            className={`alert alert-${
-              apimsg && apimsg.success ? "success" : "danger"
-            }`}
-            role="alert"
-          >
-            {apimsg && apimsg.message}
-          </div>
-        )}
+              <div
+                className={`alert alert-${
+                  apimsg && apimsg.success ? "success" : "danger"
+                }`}
+                role="alert"
+              >
+                {apimsg && apimsg.message}
+              </div>
+            )}
             <form onSubmit={handleSubmit} className="row g-3 mt-3">
               <div className="form-group col-md-6">
                 <input
@@ -311,9 +323,10 @@ const Signup = () => {
               <div className="text-center ">
                 <button
                   type="submit"
-                  className="btn btn-primary col-md-3 text-center" disabled={isLoading ? true : false}
+                  className="btn btn-primary col-md-3 text-center"
+                  disabled={isLoading ? true : false}
                 >
-                  {isLoading ? 'isLoading....' : "Register"}
+                  {isLoading ? "isLoading...." : "Register"}
                 </button>
               </div>
             </form>

@@ -41,7 +41,7 @@ export default function JobCard({products}) {
   return (
     <>
     {products && Array.isArray(products) ? (
-        products?.map((info) => (
+        products.map((info) => (
 
       <Box sx={{ maxWidth: 280 }} key={info._id}>
         <Card variant="elevation">

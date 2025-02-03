@@ -10,6 +10,7 @@ import { useDelteApplicationMutation, useGetUserApplicationQuery } from "../../R
 import { useDispatch, useSelector } from "react-redux";
 import { removeApplication } from "../../Redux/Feature/application.slice";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function createData(No, position, company, status) {
   return { No, position, company, status };
@@ -17,7 +18,15 @@ function createData(No, position, company, status) {
 
 export default function Userapplication() {
 
-  const {data,error,isLoading,refetch} = useGetUserApplicationQuery()  
+  const {data,error,isLoading,refetch} = useGetUserApplicationQuery() 
+  
+  React.useEffect(()=>{
+
+    if(data && data.applications){
+      refetch()
+    }
+  },[data])
+
   
   const [delteApplication] = useDelteApplicationMutation()
   const {user} = useSelector((v)=>v.auth)
@@ -45,13 +54,21 @@ export default function Userapplication() {
   }
 
   const handleDelete = async (id)=>{
-    await delteApplication(id)
-    dispatch(removeApplication(id))
-    refetch()
+    const delApp = await delteApplication(id).unwrap()
+    console.log("del........",delApp);
+
+    if(delApp.success){
+      dispatch(removeApplication(id))
+      refetch()
+      toast.success("Deleted successfully!", {
+                toastId: "application-deletion-success",
+              });
+    }else{
+              toast.error("An error occurred while deleting the application");
+      
+    }
+    
   }
-  // React.useEffect(()=>{
-  //   refetch()
-  // },[])
   
   return (
     <div className="table-container container" style={{color:"white"}}>

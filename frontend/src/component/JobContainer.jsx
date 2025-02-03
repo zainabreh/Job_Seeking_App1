@@ -26,7 +26,7 @@ export default function JobContainer({ search }) {
   const [locationOpen, setLocationOpen] = React.useState(false);
 
   const { category:cat } = useSelector((v) => v.category);
-  const {data:categ} = useGetAllCategoryQuery()
+  const {data:categ} = useGetAllCategoryQuery()  
   
 
   const { data, error, isLoading } = useGetAllJobsQuery({
@@ -37,6 +37,7 @@ export default function JobContainer({ search }) {
     page,
     category
   });    
+  
 
   const dispatch = useDispatch();  
 
@@ -122,7 +123,7 @@ export default function JobContainer({ search }) {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                {categ && categ.categories.map((cat) => (
+                {categ && categ?.categories?.map((cat) => (
                   <MenuItem value={cat._id}>
                     {cat.categoryName}
                   </MenuItem>

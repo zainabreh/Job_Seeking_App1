@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useCreateApplicationMutation, useGetSingleApplicationQuery, useUpdateApplicationMutation } from "../../Redux/auth/application.api";
 import { addApplication } from "../../Redux/Feature/application.slice";
 import { useSingleUserQuery } from "../../Redux/auth/auth.api";
+import { toast } from "react-toastify";
 
 const UpdateUserApplication = () => {
 
@@ -20,7 +21,7 @@ const UpdateUserApplication = () => {
   const {data,refetch} = useGetSingleApplicationQuery(id) 
    
 useEffect(()=>{
-  if(data && data){
+  if(data && data.applications){
     refetch()
   }
 },[data])
@@ -34,7 +35,7 @@ useEffect(()=>{
     if(logUser && logUser.user){      
       refec()
       }
-    },[data])
+    },[logUser])
   
 
   const formik = useFormik({
@@ -55,10 +56,17 @@ useEffect(()=>{
     onSubmit: async (values, { setSubmitting }) => {  
       
       const application = await updateApplication({values,id}).unwrap()
+
+      if (application.success) {
+        dispatch(addApplication(application))
+        // setSubmitting(false);
+        navigate("/userapplication")
+        toast.success(application.message, { toastId: "update-application-success"});
+      }else{
+        toast.error(application.message);
+
+      }
       
-      dispatch(addApplication(application))
-      // setSubmitting(false);
-      navigate("/userapplication")
     },
   });
 

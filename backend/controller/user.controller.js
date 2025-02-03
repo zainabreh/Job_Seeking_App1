@@ -7,10 +7,11 @@ export const getAllUsers = async (req,res,next)=>{
 
         res.json({
             message:"All user ",
-            users
+            users,
+            success: true
         })
     } catch (error) {
-        next(error)
+        next(new Error("Something went Wrong"))
     }    
 }
 export const getSingleUser = async (req,res,next)=>{
@@ -20,10 +21,11 @@ export const getSingleUser = async (req,res,next)=>{
         
         res.json({
             user,
-            message:"single user"
+            message:"single user",
+            success: true
         })
     } catch (error) {
-        next(error)
+        next(new Error("Something went Wrong"))
     }
 }
 export const getProfile = async (req,res,next)=>{
@@ -37,7 +39,7 @@ export const getProfile = async (req,res,next)=>{
             user,
         })
     } catch (error) {
-        next(error)
+        next(new Error("Something went Wrong"))
     }
 }
 export const createNewUser = async (req,res,next)=>{
@@ -45,10 +47,11 @@ export const createNewUser = async (req,res,next)=>{
         const user = req.body
         await userModel.create(user)
         res.json({
-            message:"user created"
+            message:"user created",
+            success: true
         })
     } catch (error) {
-        next(error)
+        next(new Error("Something went Wrong"))
     }
 }
 export const updateUser = async (req,res,next)=>{
@@ -60,10 +63,11 @@ export const updateUser = async (req,res,next)=>{
         
         res.json({
             user,
-            message:"user updated"
+            message:"user updated",
+            success: true
         })
     } catch (error) {
-        next(error)
+        next(new Error("Something went Wrong"))
     }
 }
 export const updateUserRole = async (req,res,next)=>{
@@ -82,15 +86,16 @@ export const updateUserRole = async (req,res,next)=>{
             success: true
         })
     } catch (error) {
-        next(error)
+        next(new Error("Something went Wrong"))
     }
 }
 export const deleteUser = async (req,res,next)=>{
     try {
         res.json({
-            message:"user deleted"
+            message:"user deleted",
+            success: true
         })
     } catch (error) {
-        next(error)
+        next(new Error("Something went Wrong"))
     }
 }

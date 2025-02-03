@@ -3,13 +3,14 @@ import categoryModel from '../model/category.model.js'
 export const gettAllCategory = async (req,res,next)=>{
     try {
         const categories = await categoryModel.find({}).populate('jobs')
+console.log("Categories......................",categories);
 
         res.json({
             categories
         })
 
     } catch (error) {
-        next(new Error(error))
+        next(new Error("Unable to get the Categories"))
     }
 }
 

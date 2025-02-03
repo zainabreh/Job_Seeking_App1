@@ -10,7 +10,7 @@ import {
   useAllUserQuery,
   useUpdateUserRoleMutation,
 } from "../../Redux/auth/auth.api";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/ReactToastify.css";
 
 export default function ManageUsers() {
@@ -43,7 +43,7 @@ console.log("new user........",newUser);
 
   return (
     <div className="container">
-      <ToastContainer />
+
       <h2
         style={{
           textAlign: "center",

@@ -34,6 +34,7 @@ export const getAllJobs = async (req, res, next) => {
     
     //get total count for pagination
     const total = await jobModel.countDocuments(query)
+        console.log("jobs.................",jobs);
         
     res.status(200).json({
       job:jobs,

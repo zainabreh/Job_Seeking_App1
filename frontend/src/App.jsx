@@ -37,6 +37,7 @@ import UpdateUserApplication from "./pages/UpdateUserApplication";
 import ApplicationView from "./component/ApplicationView";
 import AddCategory from "./pages/AddCategory";
 import React from "react";
+import { ToastContainer } from "react-toastify";
 
 function App() {
 
@@ -134,6 +135,7 @@ const [search, setSearch] = React.useState("");
 
   return (
     <>
+    <ToastContainer position="bottom-right" autoClose={1000}/>
       <RouterProvider router={router} />
     </>
   );

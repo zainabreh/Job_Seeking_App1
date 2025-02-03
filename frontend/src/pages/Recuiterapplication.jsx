@@ -9,7 +9,7 @@ import Paper from "@mui/material/Paper";
 import { useGetRecuiterApplicationQuery, useUpdateApplicationStatusMutation } from "../../Redux/auth/application.api";
 import { useDispatch, useSelector } from "react-redux";
 import { statusUpdation } from "../../Redux/Feature/application.slice";
-import { ToastContainer, toast } from "react-toastify";
+import {toast } from "react-toastify";
 import "react-toastify/ReactToastify.css";
 import { Link } from "react-router-dom";
 
@@ -78,7 +78,7 @@ export default function Recuiterapplication() {
 
   return (
     <div className="table-container container" style={{color:"white"}}>
-      <ToastContainer />
+     
       <h3 style={{ marginBlock: "15px" }}>
         <span
           style={{
