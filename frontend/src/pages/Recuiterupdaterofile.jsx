@@ -6,6 +6,7 @@ import {
 } from "../../Redux/auth/auth.api";
 import { useDispatch } from "react-redux";
 import { setUserInfo } from "../../Redux/Feature/auth.slice";
+import { toast } from "react-toastify";
 
 const Recuiterupdaterofile = () => {
   const { id } = useParams();
@@ -48,8 +49,16 @@ const Recuiterupdaterofile = () => {
 
     try {
       const res = await updateUser({ _id: id, formData }).unwrap();
-      dispatch(setUserInfo({ user: res.user }));
-      navigate("/recuiter/recuiterProfileCard");
+
+      if (res?.success) {
+        dispatch(setUserInfo({ user: res.user }));
+        navigate("/recuiter/recuiterProfileCard");
+        toast.success("Profile Updated successfully!", {
+          toastId: "profile-updated-success",
+        });
+      } else {
+        toast.error(res?.message || "Failed to Update Profile.");
+      }
     } catch (error) {
       console.log("updation error");
     }

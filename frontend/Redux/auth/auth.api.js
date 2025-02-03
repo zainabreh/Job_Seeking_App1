@@ -68,11 +68,13 @@ export const authApi = createApi({
                             "allUser",
                             undefined,
                             (draft) => {
-                              const user = draft.user.find(
-                                (app) => app._id === id
-                              );
-                              if (user) {
-                                user.roles = roles; // Update the status directly
+                              if (draft && draft.user) { // Ensure draft.user exists
+                                const user = draft.user.find((app) => app._id === id);
+                                if (user) {
+                                  user.roles = roles;
+                                }
+                              } else {
+                                console.warn("Cache structure is different than expected!");
                               }
                             }
                           )

@@ -5,9 +5,9 @@ import { useGetAllApplicationQuery } from '../../Redux/auth/application.api'
 
 const Admin = () => {
     const {data:users} = useAllUserQuery()
-    const {data:jobs} = useGetAllJobsQuery()
+    const {data:jobs,refetch} = useGetAllJobsQuery()
     const {data,error} = useGetAllApplicationQuery()    
-    
+    console.log("All jobs..............",jobs && jobs )
     const [appCount,setAppCount] = useState({
         pending: 0,
         reject: 0,
@@ -46,23 +46,11 @@ const Admin = () => {
             })
         }
 
-
-
-
-        if (data) {
-            if (data.success) {
-              console.log("Applications fetched successfully:", data.applications);
-            } else {
-              console.error("Error fetching applications:", data.message);
-            }
-          }
-        
-          if (error) {
-            console.error("API error:", error);
-          }
-
-
-
+        if (jobs && jobs.job) {
+            refetch()
+            
+            
+        }
 
 
     },[users,jobs,data,error])
@@ -104,7 +92,7 @@ const Admin = () => {
             <div className="row">
                 <div className="col-md-3">
                     <div className="info-card bg-red">
-                        <span>{jobs?.job.length || 0}</span>
+                        <span>{jobs && jobs?.job?.length || 0}</span>
                         Total Jobs
                     </div>
                 </div>

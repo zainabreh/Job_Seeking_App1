@@ -27,7 +27,6 @@ export default function ManageUsers() {
   const handleRole = async (id, roles) => {
     try {
       const newUser = await updateUserRole({ id, roles }).unwrap();
-console.log("new user........",newUser);
 
       if (newUser?.success) {
         await refetch();

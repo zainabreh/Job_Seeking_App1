@@ -1,45 +1,61 @@
 import {  useFormik } from "formik";
 import * as yup from "yup";
-import { toast } from "react-toastify";
 import "react-toastify/ReactToastify.css";
 import React, { useEffect, useState } from "react";
-import { useGetSingleJobQuery, useUpdateJobMutation } from "../../Redux/auth/job.api";
-import { useDispatch, useSelector } from "react-redux";
-import { setjob } from "../../Redux/Feature/job.slice";
+import { useDispatch } from "react-redux";
+import {useGetAllCategoryQuery} from "../../Redux/auth/category.api.js"
 import { useNavigate, useParams } from "react-router-dom";
-
+import {toast } from "react-toastify";
+import "react-toastify/ReactToastify.css";
+import { useGetSingleJobQuery, useUpdateJobMutation } from "../../Redux/auth/job.api.js";
+import { setjob } from "../../Redux/Feature/job.slice.js";
 
 
 
 const Updatejob = () => {
 
-  const {id} = useParams()    
-
-  const [updateJob, { data: createData, error: createError, isLoading }] = useUpdateJobMutation();
-
-  const {data} =useGetSingleJobQuery(id)  
-
+  const { id } = useParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
 
-  if (!data || !data.job) {
-    return <div>Loading...</div>;
-  }
+  const [updateJob] = useUpdateJobMutation();
+  const { data: categ } = useGetAllCategoryQuery();
+  const { data } = useGetSingleJobQuery(id);
+
+  const [formValues, setFormValues] = useState({
+    position: "",
+    company: "",
+    location: "",
+    status: "",
+    category: "",
+    vacancy: "",
+    deadline: "",
+    salary: "",
+    email: "",
+    facilities: [],
+    requiredSkill: [],
+    description: "",
+  });
+
+  useEffect(() => {
+    if (data?.job) {
+      setFormValues({
+        position: data.job.position || "",
+        company: data.job.company || "",
+        location: data.job.location || "",
+        status: data.job.status || "",
+        category: data.job.category || "",
+        vacancy: data.job.vacancy || "",
+        deadline: data.job.deadline || "",
+        salary: data.job.salary || "",
+        email: data.job.email || "",
+        facilities: Array.isArray(data.job.facilities) ? data.job.facilities.join(", ") : "",
+        requiredSkill: Array.isArray(data.job.requiredSkill) ? data.job.requiredSkill.join(", ") : "",
+        description: data.job.description || "",
+      });
+    }
+  }, [data]);
   
- const initialValues =  data && data.job && {
-    position: data.job.position,
-    company: data.job.company,
-    location: data.job.location,
-    status: data.job.status,
-    category: data.job.category,
-    vacancy: data.job.vacancy,
-    deadline: data.job.deadline,
-    salary: data.job.salary,
-    email: data.job.email,
-    facilities: data.job.facilities.toString(),
-    requiredSkill: data.job.requiredSkill.toString(),
-    description: data.job.description,
-  }
 
   const {
     handleChange,
@@ -51,7 +67,7 @@ const Updatejob = () => {
     values,
     errors,
   } = useFormik({
-    initialValues,
+    initialValues: formValues,
     enableReinitialize: true,
     validationSchema: yup.object({
       position: yup.string().required("Position is required"),
@@ -70,28 +86,29 @@ const Updatejob = () => {
       requiredSkill: yup.string().required("Skill is required"),
       description: yup.string().required("Job Description is required"),
     }),
-    onSubmit: async (v) => {
-      const facilitiesArray = v.facilities.split(",");
-      const requiredSkillsArray = v.requiredSkill.split(",");
-
+    onSubmit: async (values) => {
       const formData = {
-        ...v,
-        facilities: facilitiesArray.map((facility) => facility.trim()),
-        requiredSkill: requiredSkillsArray.map((skill) => skill.trim()),
+        ...values,
+        facilities: values.facilities.split(",").map((facility) => facility.trim()),
+        requiredSkill: values.requiredSkill.split(",").map((skill) => skill.trim()),
       };
-        const newJob = await updateJob({_id:id,formData:formData}).unwrap();
-        
-        dispatch(setjob(newJob.job));        
-        if (newJob.success === true) {
+
+      try {
+        const newJob = await updateJob({ _id: id, formData }).unwrap();
+        dispatch(setjob(newJob.job));
+
+        if (newJob.success) {
           toast.success(newJob.message);
+          navigate("/");
         } else {
           toast.error(newJob.message);
         }
-        navigate("/");
+      } catch (error) {
+        toast.error("Something went wrong!");
       }
+    },
      
   });
-  
 
   return (
     <>
@@ -104,6 +121,7 @@ const Updatejob = () => {
             color: "white",
           }}
         >Update Job</h2>
+        {/* <button onClick={clear}>clear</button> */}
         <form className="row g-3" onSubmit={handleSubmit} style={{ color: "white" }}>
           <div className="col-md-4">
             <label for="inputEmail4" className="form-label">
@@ -201,81 +219,12 @@ const Updatejob = () => {
               value={values.category}
             >
               <option selected>Select a Job category</option>
-
-              <option value="Software Engineer">Software Engineer</option>
-              <option value="Mobile App Developer">Mobile App Developer</option>
-              <option value="Web Developer">Web Developer</option>
-              <option value="DevOps Engineer">DevOps Engineer</option>
-              <option value="Quality Assurance (QA) Engineer">
-                Quality Assurance (QA) Engineer
-              </option>
-              <option value="Data Scientist">Data Scientist</option>
-              <option value="Data Analyst">Data Analyst</option>
-              <option value="Business Intelligence Developer">
-                Business Intelligence Developer
-              </option>
-              <option value="Machine Learning Engineer">
-                Machine Learning Engineer
-              </option>
-              <option value="Data Visualization Specialist">
-                Data Visualization Specialist
-              </option>
-              <option value="Network Administrator">
-                Network Administrator
-              </option>
-              <option value="Network Architect">Network Architect</option>
-              <option value="Cybersecurity Engineer">
-                Cybersecurity Engineer
-              </option>
-              <option value="Penetration Tester">Penetration Tester</option>
-              <option value="Information Security Manager">
-                Information Security Manager
-              </option>
-              <option value="Database Administrator (DBA)">
-                Database Administrator (DBA)
-              </option>
-              <option value="Database Developer">Database Developer</option>
-              <option value="Data Architect">Data Architect</option>
-              <option value="Database Performance Tuner">
-                Database Performance Tuner
-              </option>
-              <option value="Data Warehouse Architect">
-                Data Warehouse Architect
-              </option>
-              <option value="AI/ML Engineer">AI/ML Engineer</option>
-              <option value="Natural Language Processing (NLP) Engineer">
-                Natural Language Processing (NLP) Engineer
-              </option>
-              <option value="Computer Vision Engineer">
-                Computer Vision Engineer
-              </option>
-              <option value="Robotics Engineer">Robotics Engineer</option>
-              <option value="AI Researcher">AI Researcher</option>
-              <option value="Help Desk Technician">Help Desk Technician</option>
-              <option value="Technical Support Specialist">
-                Technical Support Specialist
-              </option>
-              <option value="IT Project Manager">IT Project Manager</option>
-              <option value="System Administrator">System Administrator</option>
-              <option value="Desktop Support Technician">
-                Desktop Support Technician
-              </option>
-              <option value="Web Designer">Web Designer</option>
-              <option value="UI/UX Designer">UI/UX Designer</option>
-              <option value="Mobile App Designer">Mobile App Designer</option>
-              <option value="Front-end Developer">Front-end Developer</option>
-              <option value="Graphic Designer">Graphic Designer</option>
-              <option value="Computer Hardware Engineer">
-                Computer Hardware Engineer
-              </option>
-              <option value="Embedded Systems Engineer">
-                Embedded Systems Engineer
-              </option>
-              <option value="System Administrator">System Administrator</option>
-              <option value="IT Consultant">IT Consultant</option>
-              <option value="Technical Sales Representative">
-                Technical Sales Representative
-              </option>
+              {
+                categ && categ.categories.map((cat)=>(
+                  <option value={cat._id}>{cat.categoryName}</option>
+                ))
+              }
+              
             </select>
             {touched.category && errors.category ? (
               <div style={{ color: "red" }}>{errors.category}</div>
@@ -432,7 +381,7 @@ const Updatejob = () => {
               className="btn"
               style={{ marginTop: "20px", backgroundColor: "white" }}
             >
-              Submit
+              Update Job
             </button>
           </div>
         </form>

@@ -9,10 +9,10 @@ export const getAllJobs = async (req, res, next) => {
 
     const {search,location,status,page = 1,limit = 10,category=''} = req.query      
     
-    //build query obj
+    
     let query = {};
     if (search) {
-      query.position = { $regex: search.trim(), $options: 'i'};//case insensitivity search
+      query.position = { $regex: search.trim(), $options: 'i'};
     }
 
     if(category) {
@@ -20,21 +20,20 @@ export const getAllJobs = async (req, res, next) => {
     }
 
     if (location) {
-      query.location = { $regex: location.trim(), $options: 'i' }; // Case-insensitive location search
+      query.location = { $regex: location.trim(), $options: 'i' };
     }
     if (status) {
-      query.status = { $regex: status.trim(), $options: 'i' }; // Allow searching  status
+      query.status = { $regex: status.trim(), $options: 'i' }; 
     }    
 
-    //pagination
+    
     const skip = (page - 1) * limit;
 
-    //execution of query with sorting and pagination
+
     const jobs = await jobModel.find(query).skip(skip).limit(parseInt(limit));    
     
-    //get total count for pagination
+   
     const total = await jobModel.countDocuments(query)
-        console.log("jobs.................",jobs);
         
     res.status(200).json({
       job:jobs,
@@ -44,7 +43,8 @@ export const getAllJobs = async (req, res, next) => {
       pages:Math.ceil(total/limit)
     });
   } catch (error) {
-    next(new Error("Error Getting Jobs..."));
+    next(error);
+    // next(new Error("Error Getting Jobs...",error));
   }
 };
 export const getjobByid = async (req, res, next) => {

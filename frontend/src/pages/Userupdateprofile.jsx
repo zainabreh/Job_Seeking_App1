@@ -94,6 +94,7 @@ const Userupdateprofile = () => {
               placeholder="Enter Email"
               value={formData.email}
             />
+            
           </div>
           <div className="col-md-6">
             <label for="inputUsername4" className="form-label">

@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useSingleUserQuery, useUpdateUserMutation } from "../../Redux/auth/auth.api";
+import {
+  useSingleUserQuery,
+  useUpdateUserMutation,
+} from "../../Redux/auth/auth.api";
 import { setUserInfo } from "../../Redux/Feature/auth.slice";
+import { toast } from "react-toastify";
 
 const AdminUpdateProfile = () => {
   const { id } = useParams();
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const [updateUser] = useUpdateUserMutation()
-  const { data ,refetch} = useSingleUserQuery(id);  
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [updateUser] = useUpdateUserMutation();
+  const { data, refetch } = useSingleUserQuery(id);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -19,42 +23,45 @@ const AdminUpdateProfile = () => {
     username: "",
   });
 
-  useEffect(()=>{
-    if(data && data){
+  useEffect(() => {
+    if (data && data) {
       setFormData({
         email: data && data.user.email,
         firstname: data && data.user.firstname,
         lastname: data && data.user.lastname,
         phoneNumber: data && data.user.phoneNumber,
-        username: data && data.user.username
-      })
-      refetch()
+        username: data && data.user.username,
+      });
+      refetch();
     }
-  },[data])
+  }, [data]);
 
   const handleChange = (e) => {
-    const {name,value} = e.target
-    setFormData((p)=>({
+    const { name, value } = e.target;
+    setFormData((p) => ({
       ...p,
-      [name]:value,
-    }))
+      [name]: value,
+    }));
   };
 
   const updateProfile = async (e) => {
-    e.preventDefault()
- try {
-  const updateInfo = await updateUser({_id:id,formData}).unwrap()
-  dispatch(setUserInfo({user:updateInfo.user}))
-  
-  navigate("/admin/adminprofilecard")
- } catch (error) {
-  console.log("Unable to update the user",error.message);
-  
- }
+    e.preventDefault();
+    try {
+      const updateInfo = await updateUser({ _id: id, formData }).unwrap();
+
+      if (updateInfo?.success) {
+        dispatch(setUserInfo({ user: updateInfo.user }));
+        navigate("/admin/adminprofilecard");
+        toast.success("Profile Updated successfully!", {
+          toastId: "profile-updated-success",
+        });
+      } else {
+        toast.error(updateInfo?.message || "Failed to Update Profile.");
+      }
+    } catch (error) {
+      toast.error(error.message || "Failed to Update Profile.");
+    }
   };
-
-
-
 
   return (
     <>
@@ -150,13 +157,13 @@ const AdminUpdateProfile = () => {
             className="col-12"
             style={{ textAlign: "center", marginTop: "40px" }}
           >
-              <button
-                type="submit"
-                className="btn"
-                style={{ fontSize: "16.5px", backgroundColor: "white" }}
-              >
-                Update Profile
-              </button>
+            <button
+              type="submit"
+              className="btn"
+              style={{ fontSize: "16.5px", backgroundColor: "white" }}
+            >
+              Update Profile
+            </button>
           </div>
         </form>
       </div>

@@ -37,7 +37,10 @@ export default function JobContainer({ search }) {
     page,
     category
   });    
-  
+
+  // const { data, error, isLoading } = useGetAllJobsQuery(); 
+  // console.log("All jobs..............",data && data )
+
 
   const dispatch = useDispatch();  
 

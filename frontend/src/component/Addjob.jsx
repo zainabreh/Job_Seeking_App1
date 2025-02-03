@@ -7,7 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {useGetAllCategoryQuery} from "../../Redux/auth/category.api.js"
 import { clearJob, setjob } from "../../Redux/Feature/job.slice";
 import { useNavigate } from "react-router-dom";
-
+import {toast } from "react-toastify";
+import "react-toastify/ReactToastify.css";
 
 
 
@@ -102,7 +103,7 @@ const Addjob = () => {
             color: "white",
           }}
         >Create New Job</h2>
-        <button onClick={clear}>clear</button>
+        {/* <button onClick={clear}>clear</button> */}
         <form className="row g-3" onSubmit={handleSubmit} style={{ color: "white" }}>
           <div className="col-md-4">
             <label for="inputEmail4" className="form-label">

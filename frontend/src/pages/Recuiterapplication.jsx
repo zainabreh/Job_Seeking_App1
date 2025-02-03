@@ -19,7 +19,6 @@ export default function Recuiterapplication() {
 
   const [updateApplicationStatus] = useUpdateApplicationStatusMutation()
   const {data,isLoading,refetch} = useGetRecuiterApplicationQuery()
-  const [newStatus,updateNewStatus] = React.useState()
   const {user} = useSelector(v=>v.auth)
   const dispatch = useDispatch()
   
