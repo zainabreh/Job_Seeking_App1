@@ -9,7 +9,7 @@ export const jobApi = createApi({
   endpoints: (builder) => ({
     getAllJobs: builder.query({
       query: (data={}) => ({
-        url: `/job/all?search=${data.search?data.search:""}&limit=${data.limit}&status=${data.status?data.status:""}&location=${data.location?data.location:""}&page=${data.page}&category=${data.category}`,
+        url: `/job/all?search=${data.search?data.search:""}&limit=${data.limit}&status=${data.status?data.status:""}&location=${data.location?data.location:""}&page=${data.page}&category=${data.category?data.category:""}`,
         method: "GET",
       })
     }),

@@ -16,10 +16,10 @@ import "react-toastify/ReactToastify.css";
 export default function ManageUsers() {
   const [updateUserRole] = useUpdateUserRoleMutation();
 
-  const { data, refetch } = useAllUserQuery();
+  const { data, refetch } = useAllUserQuery();  
 
   React.useEffect(() => {
-    if (data && data.users) {
+    if (data && data?.users) {
       refetch();
     }
   }, [data]);
@@ -91,7 +91,7 @@ export default function ManageUsers() {
           </TableHead>
           <TableBody>
             {data &&
-              data.users.map((row, index) => (
+              data?.users?.map((row, index) => (
                 <TableRow
                   key={row.No}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

@@ -7,7 +7,7 @@ export const getAllJobs = async (req, res, next) => {
   
   try {
 
-    const {search,location,status,page = 1,limit = 10,category=''} = req.query      
+    const {search,location,status,page = 1,limit = 4,category} = req.query      
     
     
     let query = {};
@@ -15,15 +15,14 @@ export const getAllJobs = async (req, res, next) => {
       query.position = { $regex: search.trim(), $options: 'i'};
     }
 
-    if(category) {
-      query.category = new mongoose.Types.ObjectId(category)
+    if (category && mongoose.Types.ObjectId.isValid(category)) {
+      query.category = new mongoose.Types.ObjectId(category);
     }
-
     if (location) {
       query.location = { $regex: location.trim(), $options: 'i' };
     }
     if (status) {
-      query.status = { $regex: status.trim(), $options: 'i' }; 
+      query.status =  status.trim()
     }    
 
     

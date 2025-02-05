@@ -18,7 +18,7 @@ export default function JobContainer({ search }) {
   const [status, setStatus] = React.useState("");
   const [location, setLocation] = React.useState("");
   const [page, setPage] = React.useState(1);
-  const [limit, setLimit] = React.useState(10);
+  const [limit, setLimit] = React.useState(4);
   const [totalPages, setTotalPages] = React.useState(0);
 
   const [categoryOpen, setCategoryOpen] = React.useState(false);
@@ -74,8 +74,8 @@ export default function JobContainer({ search }) {
     setPage(1)
   };
 
-  const handlePageChange = (e)=>{
-    setPage(e.selected + 1)
+  const handlePageChange = (selectedPage)=>{
+    setPage(selectedPage)
   }
 
   const handleLocationClose = () => {
@@ -230,7 +230,7 @@ export default function JobContainer({ search }) {
         <Pagination
           count={totalPages}
           page={page}
-          onChange={()=>handlePageChange(e)}
+          onChange={(event, selectedPage) => handlePageChange(selectedPage)} 
           size="large"
         />{" "}
       </div>
