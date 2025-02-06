@@ -7,10 +7,10 @@ const Sidebarlayout = () => {
     <>
       <div className="dashBoardContainer">
     <Sidebar/>
-    <div className="dashboard-container">
+    {/* <div className="dashboard-container"> */}
 
       <Outlet/>
-    </div>
+    {/* </div> */}
 </div>
     </>
   )

@@ -81,8 +81,9 @@ ul{
 
 .container {
   width: 100%;
-  margin: 40px auto;
-  padding: 20px;
+  height: fit-content;
+  margin: 20px auto;
+  /* padding: 20px; */
   background-color: #448aff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -141,10 +142,10 @@ form {
 }
 
 .dashBoardContainer{
-  width: 100%;
+  /* width: 100%; */
   display: flex;
-  /* justify-content: center; */
-  /* border: 5px solid red; */
+  justify-content: center;
+  border: 5px solid red;
   gap: 10px;
 }
 .custom-btn{
@@ -157,13 +158,13 @@ form {
   background-color: #0033ff;
   color: white;
 }
-.sidebar{
+/* .sidebar{
   width: 18%;
   height: auto;
   padding: 30px;
   background-color: #116ec0;
   color: white !important;
-}
+} */
 .nav-item{
   padding: 4px;
   /* font-size: 10px; */
@@ -171,25 +172,84 @@ form {
 .nav-item p{
   font-size: 13px;
 }
-.dashboard-container{
+/* .dashboard-container{
   width:80%;
   height: 100vh;
-}
+} */
 .table-container{
   margin-block: 100px;
   background-color: '#448aff';
 }
 
+.sidebar {
+  width: 300px;
+  height: 100vh;
+  background-color: #116ec0;
+  /* position: fixed;
+  top: 0;
+  left: 0; */
+  padding: 20px;
+  padding-top: 150px;
+  /* z-index: -1; */
+  transition: transform 0.3s ease-in-out;
+}
+
+.sidebar .nav-item {
+  margin-bottom: 15px;
+}
+
+.hamburger {
+  display: none;
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background: transparent;
+  border: none;
+  margin: 10px 25px;
+  padding: 0px 10px;
+  font-size: 30px;
+  border-radius: 10px;
+  color: #ffffff;
+  background-color: #116ec0;
+  font-size: 30px;
+  cursor: pointer;
+}
 
 
-@media screen and (max-width: 890px) {
-  .filter-container {
+
+@media screen and (min-width: 890px) {
+  .container {
+    width: 100%;
+    /* margin: 5px 2px; */
+  }
+
+  .dashBoardContainer{ 
+    width: 100%;
+   }
+ 
+}
+
+@media (min-width: 576px) {
+  .container{
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+
+
+   .filter-container {
     padding: 5px;
     /* margin: 0 auto; */
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
+  }
+  .container {
+    width: 100%;
+    margin: 50px 10px;
+    padding: 1px 20px;
   }
   .usercard {
     padding: 20px;
@@ -203,65 +263,83 @@ form {
     justify-content: center;
   }
   
-  .dashBoardContainer{
-    width: 100%;
+  .dashBoardContainer{ 
+    width: 100%; 
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     justify-content: center;
-    gap: 10px;
-  }
+    /* gap: 10px;*/
+   }
   .Usercontainer{
     width: 100%;
   }
-  .dashboard-container{
+  /* .dashboard-container{
     width: 100%;
-  }
-  .sidebar{
+  } */
+   /* .sidebar{
     width: 100%;
     height: auto;
     padding: 10px;
   }
   .short-sidebar {
     width: 100%;
-    /* display: flex; */
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-  }
-
+  } */
+/* 
   .short-sidebar .nav-item {
     width: 150px;
     padding: 5px;
-    /* border: 5px solid rgb(0, 255, 8); */
+    border: 5px solid rgb(0, 255, 8);
     margin: 10px;
-  }
+  } */
   
-  .short-sidebar .nav-item:nth-child(odd) {
+  /* .short-sidebar .nav-item:nth-child(odd) {
     margin-right: 20px;
   }
-  
+   */
   .table-container{
     margin-block: 50px;
     margin-inline: 10px;
+  } 
+
+  .sidebar {
+    width: 200px;
+    transform: translateX(-100%);
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #116ec0;
+    opacity: 0.9;
+    transition: transform 0.3s ease-in-out;
   }
- 
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .hamburger {
+    display: block;
+  }
 }
 
-.info-card {
+/* .info-card {
   color: white;
   padding: 20px;
   border-radius: 8px;
   display: flex;
-  flex-direction: column; /* Display text in flex column */
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-size: 1.2rem; /* Decreased font size */
-  font-weight: normal; /* Decreased font weight */
+  font-size: 1.2rem; 
+    font-weight: normal; 
 }
 .info-card span {
   display: block;
-  font-size: 2rem; /* Decreased font size */
+  font-size: 2rem; 
 }
 .bg-blue {
   background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
@@ -280,7 +358,7 @@ form {
 }
 .info-section {
   margin-bottom: 20px;
-}
+} */
 
 
 
@@ -307,8 +385,7 @@ form {
 
 
 
-
-
+/* 
 body {
   background-color: #f8f9fa;
   font-family: 'Arial', sans-serif;
@@ -347,4 +424,4 @@ body {
 
 .text-center {
   margin-top: 20px;
-}
+} */

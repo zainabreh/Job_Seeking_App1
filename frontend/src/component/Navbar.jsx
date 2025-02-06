@@ -17,6 +17,8 @@ const Navbar = () => {
 
   useEffect(() => {
     if (data && data.user) {
+      console.log("user",data && data.user);
+      
       refetch();
     }
   }, [data]);  
@@ -68,7 +70,7 @@ const Navbar = () => {
           {data?.user && key ? (
             <div className="btn-group dropstart">
               <img
-                src={data?.user.avatar}
+                src={data?.user?.avatar}
                 alt=""
                 style={{ width: "40px", height: "40px", borderRadius: "50%" }}
               />
