@@ -4,13 +4,17 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
-import { Box } from "@mui/material";
+import { Box, IconButton, useMediaQuery } from "@mui/material";
 import JobCard from "./JobCard";
 import Pagination from "@mui/material/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetAllJobsQuery } from "../../Redux/auth/job.api.js";
 import { useGetAllCategoryQuery } from "../../Redux/auth/category.api.js";
 import { setjob } from "../../Redux/Feature/job.slice.js";
+import FilterListIcon from "@mui/icons-material/FilterList";
+
+
+
 
 export default function JobContainer({ search }) {
   const [products, setProducts] = React.useState([]);
@@ -38,8 +42,7 @@ export default function JobContainer({ search }) {
     category
   });    
 
-  // const { data, error, isLoading } = useGetAllJobsQuery(); 
-  // console.log("All jobs..............",data && data )
+  const isLargeScreen = useMediaQuery("(min-width: 800px)"); 
 
 
   const dispatch = useDispatch();  
@@ -100,124 +103,181 @@ export default function JobContainer({ search }) {
   return (
     <>
       <div className="main-container">
+      {/* {!isLargeScreen && (
+          <IconButton
+            onClick={() => setFilterOpen(!filterOpen)}
+            sx={{ position: "absolute", top: 280, right: 10, color: "green" }}
+          >
+            <FilterListIcon fontSize="large" />
+          </IconButton>
+        )} */}
         <div className="filter-container">
-          {/* Category */}
-          <Box sx={{ width: 250 }}>
-            <Button
-              sx={{ display: "block", mt: 2 }}
-              onClick={handleCategoryOpen}
-            >
-              Filter Job By Category
-            </Button>
-            <FormControl sx={{ m: 1, minWidth: 200 }}>
-              <InputLabel id="demo-controlled-open-select-label">
-                Category
-              </InputLabel>
-              <Select
-                labelId="demo-controlled-open-select-label"
-                id="demo-controlled-open-select"
-                open={categoryOpen}
-                onClose={handleCategoryClose}
-                onOpen={handleCategoryOpen}
-                value={category}
-                label="category"
-                onChange={handleCategoryChange}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                {categ && categ?.categories?.map((cat) => (
-                  <MenuItem value={cat._id}>
-                    {cat.categoryName}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Box>
+        {!isLargeScreen ? (
+          <div className="filter-window" style={{ maxWidth:"500px",padding: "10px", background: "white", boxShadow: "0px 4px 10px rgba(0,0,0,0.2)" }}>
+            <Box sx={{ display: "flex", gap: 2, justifyContent: "center" }}>
+              <FormControl sx={{  minWidth: "100px", maxWidth: "110px", width: "100%"  }}>
+                <InputLabel>Category</InputLabel>
+                <Select value={category} onChange={(e) => setCategory(e.target.value)}>
+                  <MenuItem value=""><em>None</em></MenuItem>
+                  {categ?.categories?.map((cat) => (
+                    <MenuItem key={cat._id} value={cat._id}>{cat.categoryName}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
 
-          {/* status */}
-          <Box sx={{ width: 250 }}>
-            <Button sx={{ display: "block", mt: 2 }} onClick={handleStatusOpen}>
-              Filter Job By status
-            </Button>
-            <FormControl sx={{ m: 1, minWidth: 200 }}>
-              <InputLabel id="demo-controlled-open-select-label">
-                Status
-              </InputLabel>
-              <Select
-                labelId="demo-controlled-open-select-label"
-                id="demo-controlled-open-select"
-                open={statusOpen}
-                onClose={handleStatusClose}
-                onOpen={handleStatusOpen}
-                value={status}
-                label="status"
-                onChange={handleStatusChange}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={"full-time"}>Full-Time</MenuItem>
-                <MenuItem value={"part-time"}>Part-Time</MenuItem>
-                <MenuItem value={"internship"}>Internship</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
+              <FormControl sx={{ minWidth: "110px" }}>
+                <InputLabel>Status</InputLabel>
+                <Select value={status} onChange={(e) => setStatus(e.target.value)}>
+                  <MenuItem value=""><em>None</em></MenuItem>
+                  <MenuItem value="full-time">Full-Time</MenuItem>
+                  <MenuItem value="part-time">Part-Time</MenuItem>
+                  <MenuItem value="internship">Internship</MenuItem>
+                </Select>
+              </FormControl>
 
-          {/* Location */}
-          <Box sx={{ width: 250 }}>
-            <Button
-              sx={{ display: "block", mt: 2 }}
-              onClick={handleLocationOpen}
-            >
-              Filter Job By Location
-            </Button>
-            <FormControl sx={{ m: 1, minWidth: 200 }}>
-              <InputLabel id="demo-controlled-open-select-label">
-                Location
-              </InputLabel>
-              <Select
-                labelId="demo-controlled-open-select-label"
-                id="demo-controlled-open-select"
-                open={locationOpen}
-                onClose={handleLocationClose}
-                onOpen={handleLocationOpen}
-                value={location}
-                label="location"
-                onChange={handleLocationChange}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={"Karachi"}>Karachi</MenuItem>
-                <MenuItem value={"Lahore"}>Lahore</MenuItem>
-                <MenuItem value={"Islamabad"}>Islamabad</MenuItem>
-                <MenuItem value={"Faisalabad"}>Faisalabad</MenuItem>
-                <MenuItem value={"Rawalpindi"}>Rawalpindi</MenuItem>
-                <MenuItem value={"Peshawar"}>Peshawar</MenuItem>
-                <MenuItem value={"Quetta"}>Quetta</MenuItem>
-                <MenuItem value={"Multan"}>Multan</MenuItem>
-                <MenuItem value={"Hyderabad"}>Hyderabad</MenuItem>
-                <MenuItem value={"Gujranwala"}>Gujranwala</MenuItem>
-                <MenuItem value={"Sialkot"}>Sialkot</MenuItem>
-                <MenuItem value={"Bahawalpur"}>Bahawalpur</MenuItem>
-                <MenuItem value={"Sukkur"}>Sukkur</MenuItem>
-                <MenuItem value={"Jhelum"}>Jhelum</MenuItem>
-                <MenuItem value={"Abottabad"}>Abottabad</MenuItem>
-                <MenuItem value={"Sargodha"}>Sargodha</MenuItem>
-                <MenuItem value={"Rahim Yar Khan"}>Rahim Yar Khan</MenuItem>
-                <MenuItem value={"Mardan"}>Mardan</MenuItem>
-                <MenuItem value={"Dera Ghazi Khan"}>Dera Ghazi Khan</MenuItem>
-                <MenuItem value={"Mirpur"}>Mirpur</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
+              <FormControl sx={{ minWidth: "110px" }}>
+                <InputLabel>Location</InputLabel>
+                <Select value={location} onChange={(e) => setLocation(e.target.value)}>
+                  <MenuItem value=""><em>None</em></MenuItem>
+                  <MenuItem value="Islamabad">Islamabad</MenuItem>
+                  <MenuItem value="Karachi">Karachi</MenuItem>
+                  <MenuItem value="Lahore">Lahore</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+          </div>
+        ) :(
+          <>
+             {/* Category */}
+             <Box sx={{ width: 250 }}>
+             <Button
+               sx={{ display: "block", mt: 2 }}
+               onClick={handleCategoryOpen}
+             >
+               Filter Job By Category
+             </Button>
+             <FormControl sx={{ m: 1, minWidth: 200 }}>
+               <InputLabel id="demo-controlled-open-select-label">
+                 Category
+               </InputLabel>
+               <Select
+                 labelId="demo-controlled-open-select-label"
+                 id="demo-controlled-open-select"
+                 open={categoryOpen}
+                 onClose={handleCategoryClose}
+                 onOpen={handleCategoryOpen}
+                 value={category}
+                 label="category"
+                 onChange={handleCategoryChange}
+               >
+                 <MenuItem value="">
+                   <em>None</em>
+                 </MenuItem>
+                 {categ && categ?.categories?.map((cat) => (
+                   <MenuItem value={cat._id}>
+                     {cat.categoryName}
+                   </MenuItem>
+                 ))}
+               </Select>
+             </FormControl>
+           </Box>
+ 
+           {/* status */}
+           <Box sx={{ width: 250 }}>
+             <Button sx={{ display: "block", mt: 2 }} onClick={handleStatusOpen}>
+               Filter Job By status
+             </Button>
+             <FormControl sx={{ m: 1, minWidth: 200 }}>
+               <InputLabel id="demo-controlled-open-select-label">
+                 Status
+               </InputLabel>
+               <Select
+                 labelId="demo-controlled-open-select-label"
+                 id="demo-controlled-open-select"
+                 open={statusOpen}
+                 onClose={handleStatusClose}
+                 onOpen={handleStatusOpen}
+                 value={status}
+                 label="status"
+                 onChange={handleStatusChange}
+               >
+                 <MenuItem value="">
+                   <em>None</em>
+                 </MenuItem>
+                 <MenuItem value={"full-time"}>Full-Time</MenuItem>
+                 <MenuItem value={"part-time"}>Part-Time</MenuItem>
+                 <MenuItem value={"internship"}>Internship</MenuItem>
+               </Select>
+             </FormControl>
+           </Box>
+ 
+           {/* Location */}
+           <Box sx={{ width: 250 }}>
+             <Button
+               sx={{ display: "block", mt: 2 }}
+               onClick={handleLocationOpen}
+             >
+               Filter Job By Location
+             </Button>
+             <FormControl sx={{ m: 1, minWidth: 200 }}>
+               <InputLabel id="demo-controlled-open-select-label">
+                 Location
+               </InputLabel>
+               <Select
+                 labelId="demo-controlled-open-select-label"
+                 id="demo-controlled-open-select"
+                 open={locationOpen}
+                 onClose={handleLocationClose}
+                 onOpen={handleLocationOpen}
+                 value={location}
+                 label="location"
+                 onChange={handleLocationChange}
+               >
+                 <MenuItem value="">
+                   <em>None</em>
+                 </MenuItem>
+                 <MenuItem value={"Karachi"}>Karachi</MenuItem>
+                 <MenuItem value={"Lahore"}>Lahore</MenuItem>
+                 <MenuItem value={"Islamabad"}>Islamabad</MenuItem>
+                 <MenuItem value={"Faisalabad"}>Faisalabad</MenuItem>
+                 <MenuItem value={"Rawalpindi"}>Rawalpindi</MenuItem>
+                 <MenuItem value={"Peshawar"}>Peshawar</MenuItem>
+                 <MenuItem value={"Quetta"}>Quetta</MenuItem>
+                 <MenuItem value={"Multan"}>Multan</MenuItem>
+                 <MenuItem value={"Hyderabad"}>Hyderabad</MenuItem>
+                 <MenuItem value={"Gujranwala"}>Gujranwala</MenuItem>
+                 <MenuItem value={"Sialkot"}>Sialkot</MenuItem>
+                 <MenuItem value={"Bahawalpur"}>Bahawalpur</MenuItem>
+                 <MenuItem value={"Sukkur"}>Sukkur</MenuItem>
+                 <MenuItem value={"Jhelum"}>Jhelum</MenuItem>
+                 <MenuItem value={"Abottabad"}>Abottabad</MenuItem>
+                 <MenuItem value={"Sargodha"}>Sargodha</MenuItem>
+                 <MenuItem value={"Rahim Yar Khan"}>Rahim Yar Khan</MenuItem>
+                 <MenuItem value={"Mardan"}>Mardan</MenuItem>
+                 <MenuItem value={"Dera Ghazi Khan"}>Dera Ghazi Khan</MenuItem>
+                 <MenuItem value={"Mirpur"}>Mirpur</MenuItem>
+               </Select>
+             </FormControl>
+           </Box>
+           </>
+        )}
+       
         </div>
+
+
 
         <div className="card-container">
-          <JobCard products={products} />
+        {products.length > 0 ? (
+    <JobCard products={products} />
+  ) : (
+    <h2 style={{ textAlign: "center", color: "gray", marginTop: "20px" }}>
+      No jobs found. Try changing the filters.
+    </h2>
+  )}
         </div>
       </div>
+
+
       {/* pagination */}
       <div
         style={{

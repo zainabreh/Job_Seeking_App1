@@ -66,7 +66,7 @@ const Recuiterupdaterofile = () => {
 
   return (
     <>
-      <div className="container" style={{ margin: "40px", color: "white" }}>
+      <div className="container" style={{ color: "white" }}>
         <h3 style={{ marginBlock: "15px" }}>
           <span
             style={{

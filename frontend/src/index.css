@@ -10,6 +10,7 @@ ul{
   list-style: none;
 }
 .filter-container{
+  width: 30%;
   margin: auto;
   padding: 5px;
   margin-block: 25px;
@@ -21,7 +22,7 @@ ul{
   
 }
 .card-container{
-  width: 100%;
+  width: 70%;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -31,7 +32,7 @@ ul{
 
 .Usercontainer{
   width: 100%;
-  margin: 0 auto;
+  /* margin: 0 auto; */
 }
 
 /* usercard.css */
@@ -40,6 +41,7 @@ ul{
   border: 1px solid #ddd;
   border-radius: 10px;
   background-color: #448aff;
+  padding: 10px;
   /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
 }
 
@@ -52,7 +54,7 @@ ul{
 
 .usercard table {
   border-collapse: separate;
-  border-spacing: 20px 10px;
+  border-spacing: 5px 5px;
 }
 
 .usercard th, .usercard td {
@@ -142,10 +144,10 @@ form {
 }
 
 .dashBoardContainer{
-  /* width: 100%; */
+  width: 100%;
   display: flex;
-  justify-content: center;
-  border: 5px solid red;
+  /* justify-content: center; */
+  /* border: 5px solid red; */
   gap: 10px;
 }
 .custom-btn{
@@ -205,19 +207,19 @@ form {
   right: 0;
   background: transparent;
   border: none;
-  margin: 10px 25px;
-  padding: 0px 10px;
+  margin: 10px;
+  /* padding: 0px 10px; */
   font-size: 30px;
   border-radius: 10px;
-  color: #ffffff;
-  background-color: #116ec0;
+  color: #116ec0;
+  /* background-color: #116ec0; */
   font-size: 30px;
   cursor: pointer;
 }
 
 
 
-@media screen and (min-width: 890px) {
+@media screen and (min-width: 880px) {
   .container {
     width: 100%;
     /* margin: 5px 2px; */
@@ -226,6 +228,15 @@ form {
   .dashBoardContainer{ 
     width: 100%;
    }
+
+  
+  /* .filter-container{ */
+    /* display: ; */
+  /* }  */
+  
+.card-container{
+width: 100%;
+}
  
 }
 
@@ -233,11 +244,14 @@ form {
   .container{
     width: 80%;
   }
+
 }
 
 @media screen and (max-width: 768px) {
 
-
+  .main-container {
+    flex-direction: column;
+  }
    .filter-container {
     padding: 5px;
     /* margin: 0 auto; */
@@ -249,15 +263,12 @@ form {
   .container {
     width: 100%;
     margin: 50px 10px;
-    padding: 1px 20px;
+    /* padding: 1px 20px; */
   }
   .usercard {
-    padding: 20px;
+    padding: 5px;
   }
-  .main-container {
-    margin: 0 auto;
-    flex-wrap: wrap;
-  }
+
   .card-container{
     align-items: center;
     justify-content: center;
@@ -325,17 +336,39 @@ form {
   }
 }
 
-/* .info-card {
+
+
+
+
+
+
+
+
+
+
+
+
+.info-section{
+  /* width: 100%; */
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.info-card {
+  width: 100%;
   color: white;
   padding: 20px;
   border-radius: 8px;
+  margin-block: 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
+  /* border: 3px solid red; */
   font-size: 1.2rem; 
-    font-weight: normal; 
+  font-weight: normal; 
 }
 .info-card span {
   display: block;
@@ -358,7 +391,7 @@ form {
 }
 .info-section {
   margin-bottom: 20px;
-} */
+}
 
 
 

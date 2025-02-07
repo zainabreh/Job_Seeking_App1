@@ -101,7 +101,7 @@ const LogIn = () => {
                   ""
                 )}
               </div>
-              <div className="form-group">
+              <div className="form-group mt-2">
                 <label htmlFor="password">Password</label>
                 <input
                   type="password"
@@ -119,7 +119,7 @@ const LogIn = () => {
                   ""
                 )}
               </div>
-              <button type="submit" className="btn btn-primary btn-block" disabled={isLoading ? true : false}>
+              <button type="submit" className="btn btn-primary btn-block mt-3" disabled={isLoading ? true : false}>
                 {isLoading ? 'isLoading....' : "LogIn"}
               </button>
             </form>

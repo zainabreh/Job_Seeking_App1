@@ -57,10 +57,10 @@ const Admin = () => {
 
   return (
     <>
-      <div className="container mt-5">
+      <div className="container mt-5" style={{display:"flex",flexDirection:"column",flex:"wrap"}}>
         <div className="info-section">
             <h4 style={{fontWeight:"600",color:"white",marginBlock:"25px"}}>User Info</h4>
-            <div className="row">
+            <div className="row" style={{display:"flex",flex:"wrap"}}>
                 <div className="col-md-3">
                     <div className="info-card bg-blue">
                         <span>{users?.users.length || 0}</span>

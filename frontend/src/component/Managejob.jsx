@@ -84,7 +84,7 @@ export default function Managejob() {
       <h2
         style={{
           textAlign: "center",
-          marginBlock: "20px",
+          marginBlock: "10px",
           fontWeight: "600",
           color: "white",
         }}
@@ -92,7 +92,7 @@ export default function Managejob() {
         Manage Job
       </h2>
 
-      <TableContainer component={Paper} sx={{ marginBlock: "30px" }}>
+      <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead sx={{ backgroundColor: "#0d47a1" }}>
             <TableRow>

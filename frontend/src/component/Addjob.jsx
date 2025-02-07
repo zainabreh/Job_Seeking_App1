@@ -94,7 +94,7 @@ const Addjob = () => {
 
   return (
     <>
-      <div className="container">
+      <div className="container" style={{padding:"10px"}}>
      <h2
           style={{
             textAlign: "center",

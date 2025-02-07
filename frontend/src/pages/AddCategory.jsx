@@ -46,7 +46,7 @@ console.log("category",newCategory);
     <>
       <div
         className="container"
-        style={{ width: "110%", margin: "20px", color: "white",height:"fit-content" }}
+        style={{ width: "110%", margin: "40px", color: "white",height:"fit-content" }}
       >
         <h3 style={{ marginBlock: "15px" }}>
           <span
