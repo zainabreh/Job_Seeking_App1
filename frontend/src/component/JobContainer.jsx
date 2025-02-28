@@ -12,6 +12,7 @@ import { useGetAllJobsQuery } from "../../Redux/auth/job.api.js";
 import { useGetAllCategoryQuery } from "../../Redux/auth/category.api.js";
 import { setjob } from "../../Redux/Feature/job.slice.js";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import RingLoader from "react-spinners/RingLoader";
 
 
 
@@ -57,7 +58,10 @@ export default function JobContainer({ search }) {
   }, [data,products,search,category,page,location,status]);
 
   if (isLoading) {
-    return <h1>Loading</h1>;
+    return <div style={{textAlign:"center"}}>
+      <RingLoader color="rgba(32, 61, 213, 1)" />
+      
+      </div>
   }
 
   if (error) {
@@ -271,7 +275,7 @@ export default function JobContainer({ search }) {
     <JobCard products={products} />
   ) : (
     <h2 style={{ textAlign: "center", color: "gray", marginTop: "20px" }}>
-      No jobs found. Try changing the filters.
+      No jobs found. Try again
     </h2>
   )}
         </div>

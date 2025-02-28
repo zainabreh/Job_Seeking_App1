@@ -11,6 +11,7 @@ import { errorHandler } from './middleware/error.middleware.js'
 import cookieParser from 'cookie-parser';
 import cors from "cors"
 import { v2 as cloudinary } from 'cloudinary';
+import { newsLetterCron } from './Automation/newsLetterCron.js'
 
 const app = express()
 
@@ -20,15 +21,12 @@ const corsOptions = {
   };
   app.use(cors(corsOptions));
   
-
+//   newsLetterCron()
 connectDB().then(()=>{
     app.listen(process.env.PORT,()=>{
         console.log(`Listning on port ${process.env.PORT}`);
         
     })
-}).catch((err)=>{
-    console.log("DB connection failed in script file", err);
-    
 })
 
 
