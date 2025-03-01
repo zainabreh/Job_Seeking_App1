@@ -16,6 +16,7 @@ const jobSchema = new Schema({
   facilities: [{type:String}],
   salary: Number,
   email: String,
+  jobNewEmail:false,
   location: String,
   status:{
     type:String,
