@@ -32,6 +32,10 @@ const userSchema = new Schema({
         required: [true,"Provide gender"],
 
     },
+    niches: {
+        type: [String],
+        required: true,
+      },
     phoneNumber:{
         type:"String",
         required: [true,"Provide PhonNumber"],

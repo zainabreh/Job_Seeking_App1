@@ -21,7 +21,7 @@ const corsOptions = {
   };
   app.use(cors(corsOptions));
   
-//   newsLetterCron()
+  newsLetterCron()
 connectDB().then(()=>{
     app.listen(process.env.PORT,()=>{
         console.log(`Listning on port ${process.env.PORT}`);

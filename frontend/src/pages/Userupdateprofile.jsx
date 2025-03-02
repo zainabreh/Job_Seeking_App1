@@ -22,6 +22,7 @@ const Userupdateprofile = () => {
     lastname: "",
     phoneNumber: "",
     username: "",
+    niches:[]
   });
 
   const handleChange = (e) => {
@@ -33,7 +34,7 @@ const Userupdateprofile = () => {
   };
 
   const updateProfile = async (e) => {
-    e.preventDefault();
+    e.preventDefault();    
 
     try {
       const res = await updateUser({ _id: id, formData }).unwrap();
@@ -60,6 +61,7 @@ const Userupdateprofile = () => {
         lastname: data && data.user.lastname,
         phoneNumber: data && data.user.phoneNumber,
         username: data && data.user.username,
+        niches:data && data.user.niches
       });
       refetch();
     }
@@ -151,6 +153,21 @@ const Userupdateprofile = () => {
               className="form-control"
               id="inputGender"
               placeholder="phone Number"
+            />
+          </div>
+
+          <div className="col-md-6">
+            <label for="inputGender" className="form-label">
+              Skills
+            </label>
+            <input
+              type="text"
+              name="niches"
+              value={formData.niches}
+              onChange={handleChange}
+              className="form-control"
+              id="inputGender"
+              placeholder="Web Development, Data Science"
             />
           </div>
 

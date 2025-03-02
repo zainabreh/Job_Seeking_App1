@@ -36,12 +36,14 @@ const Signup = () => {
       cpassword: "",
       gender: "",
       avatar: "",
+      niches: []
     },
     validationSchema: yup.object({
       firstname: yup.string().required("Required"),
       lastname: yup.string().required("Required"),
       roles: yup.string().required("Required"),
       gender: yup.string().required("Required"),
+      niches: yup.array().of(yup.string()).required("Required - Niches (comma-separated)"),
       avatar: yup.string(),
       username: yup.string().required("Required"),
       email: yup.string().required("Reqiured"),
@@ -54,20 +56,12 @@ const Signup = () => {
     }),
     onSubmit: async (v) => {
       delete v.cpassword;
+      v.niches = v.niches.map(niche => niche.trim()).filter(n => n !== "");
 
       const user = await registerUser(v).unwrap();
       // dispatch(setUserInfo(user));
 
-      // toast.success("User Registered Successfully");
-
-      // if (user) {
-      //   setApimsg(user);
-      // } else {
-      //   setApimsg({
-      //     success: false,
-      //     error: "Something went wrong",
-      //   });
-
+   
         if (user?.success) {
           dispatch(setUserInfo(user));
           setApimsg(user?.message);
@@ -88,6 +82,10 @@ const Signup = () => {
     },
   });
 
+  const handleNichesChange = (e)=>{
+    const nichesArray = e.target.value.split(",").map(niche=>niche.trim())
+    setFieldValue("niches",nichesArray)
+  }
   const handleImgChange = (e) => {
     const read = new FileReader();
     read.onload = () => {
@@ -276,6 +274,24 @@ const Signup = () => {
                 />
                 {touched.cpassword && errors.cpassword ? (
                   <div style={{ color: "red" }}>{errors.cpassword}</div>
+                ) : (
+                  ""
+                )}
+              </div>
+
+              <div className="form-group col-md-6">
+                <input
+                  type="text"
+                  name="niches"
+                  onChange={handleNichesChange}
+                  onBlur={handleBlur}
+                  value={values.niches.join(", ")}
+                  className="form-control"
+                  id="niches"
+                  placeholder="e.g. Web Development, Data Science"
+                />
+                {touched.niches && errors.niches ? (
+                  <div style={{ color: "red" }}>{errors.niches}</div>
                 ) : (
                   ""
                 )}

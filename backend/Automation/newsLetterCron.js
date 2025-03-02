@@ -14,14 +14,12 @@ export const newsLetterCron = ()=>{
     for (const job of jobs){
         try {
             const filteredUser = await userModel.find({
-                $or:[{
-                    "niches.firstNiche":job.jobNiches
-                }]
-            })
+                niches: job.category 
+            });
 
             for (const user of filteredUser){
-                const subject = ''
-                const message = ''
+                const subject =  `Hot Job Alert: ${job.position} in ${job.category} Available Now`
+                const message = `Hi ${user.firstname},\n\nGreat news! A new job that fits your niche has just been posted. The position is for a ${job.position} with ${job.company}, and they are looking to hire immediately.\n\nJob Details:\n- **Position:** ${job.position}\n- **Company:** ${job.company}\n- **Location:** ${job.location}\n- **Salary:** ${job.salary}\n\nDon’t wait too long! Job openings like these are filled quickly. \n\nWe’re here to support you in your job search. Best of luck!\n\nBest Regards,\nNicheNest Team`
 
                 sendEmail({
                     email:user.email,

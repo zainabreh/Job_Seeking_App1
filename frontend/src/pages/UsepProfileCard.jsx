@@ -74,6 +74,13 @@ const UsepProfileCard = () => {
                       </td>
                       <td style={{fontWeight:"600"}}>{data?.user.gender}</td>
                     </tr>
+
+                    <tr>
+                      <td scope="col" style={{ fontWeight: "600" }}>
+                        Gender:
+                      </td>
+                      <td style={{fontWeight:"600"}}>{data?.user.niches.join(",")}</td>
+                    </tr>
                   </tbody>
                 </table>
                <Link to={`/Userupdateprofile/${data?.user._id}`}> <p className="edite" style={{textAlign:"justify",fontSize:"20px",fontWeight:"bolder", padding:"20px"}}><i className="fa-solid fa-pen-to-square"></i> Edit</p></Link>
