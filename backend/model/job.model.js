@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import { type } from "os";
 
 const jobSchema = new Schema({
   position: {
@@ -16,7 +17,10 @@ const jobSchema = new Schema({
   facilities: [{type:String}],
   salary: Number,
   email: String,
-  jobNewEmail:false,
+  jobNewEmail:{
+    type:Boolean,
+    default: false
+  },
   location: String,
   status:{
     type:String,

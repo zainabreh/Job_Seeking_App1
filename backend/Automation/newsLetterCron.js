@@ -1,7 +1,7 @@
 import cron from "node-cron"
 
 import userModel from "../model/user.model.js"
-import jobModel from "../model/user.model.js"
+import jobModel from "../model/job.model.js"
 import { sendEmail } from "../middleware/sendEmail.js"
 
 // it will execute no matter what even if the server is down
@@ -9,13 +9,21 @@ import { sendEmail } from "../middleware/sendEmail.js"
 // compare to setTime interval
 export const newsLetterCron = ()=>{
     cron.schedule(" */1 * * * * ",async ()=>{
+        console.log("NewsLetterCron.........");
+        
     const jobs = await jobModel.find({jobNewEmail:false})   
+
+    console.log("jobs,,,,,,,,,,,,,,,,",jobs);
+    
     
     for (const job of jobs){
         try {
             const filteredUser = await userModel.find({
-                niches: job.category 
+                niches: job.category.toString()
             });
+
+            console.log("filtered users,,,,,,,,,,,,,,",filteredUser);
+            
 
             for (const user of filteredUser){
                 const subject =  `Hot Job Alert: ${job.position} in ${job.category} Available Now`

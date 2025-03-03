@@ -71,8 +71,8 @@ export const createJob = async (req, res, next) => {
   try {
     const data = req.body;
     const job = await jobModel.create({
-      ...req.body,
       postedBy: req.user.id,
+      ...req.body,
     });
 
     const categoryId = job.category;
@@ -80,7 +80,7 @@ export const createJob = async (req, res, next) => {
 
     const category = await categoryModel.findById(categoryId)
 
-    const newfield = [...category.jobs,jobId]
+    const newfield = [jobId,...category.jobs]
     category.jobs = newfield
 
     const updatedcategory = await categoryModel.findByIdAndUpdate(categoryId,category)    
