@@ -21,7 +21,7 @@ export const newsLetterCron = ()=>{
                 continue;
             }
             const filteredUser = await userModel.find({
-                niches:  { $in: [job.category.categoryName] }
+                niches:  { $elemMatch: { $regex: new RegExp(job.category.categoryName, "i") } }
             });
 
 
