@@ -77,7 +77,7 @@ const UsepProfileCard = () => {
 
                     <tr>
                       <td scope="col" style={{ fontWeight: "600" }}>
-                        Gender:
+                        Skills:
                       </td>
                       <td style={{fontWeight:"600"}}>{data?.user.niches.join(",")}</td>
                     </tr>

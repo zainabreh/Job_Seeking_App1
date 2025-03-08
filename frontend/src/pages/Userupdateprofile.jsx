@@ -15,6 +15,7 @@ const Userupdateprofile = () => {
   const navigate = useNavigate();
   const [updateUser] = useUpdateUserMutation();
   const { data, refetch } = useSingleUserQuery(id);
+  const [niches,setNiches] = useState()
 
   const [formData, setFormData] = useState({
     email: "",
@@ -32,10 +33,15 @@ const Userupdateprofile = () => {
       [name]: value,
     }));
   };
-
+  const handleNichesChange = (e) => {
+    const nichesArray = e.target.value.split(",").map(niche => niche.trim()).filter(n => n !== "");
+    setFormData((prev) => ({
+      ...prev,
+      niches: nichesArray,  
+    }));
+  };
   const updateProfile = async (e) => {
     e.preventDefault();    
-
     try {
       const res = await updateUser({ _id: id, formData }).unwrap();
       
@@ -61,7 +67,7 @@ const Userupdateprofile = () => {
         lastname: data && data.user.lastname,
         phoneNumber: data && data.user.phoneNumber,
         username: data && data.user.username,
-        niches:data && data.user.niches
+        niches:data && data.user.niches || []
       });
       refetch();
     }
@@ -163,11 +169,11 @@ const Userupdateprofile = () => {
             <input
               type="text"
               name="niches"
-              value={formData.niches}
-              onChange={handleChange}
+              value={formData.niches.join(", ")}
+              onChange={handleNichesChange}
               className="form-control"
-              id="inputGender"
-              placeholder="Web Development, Data Science"
+              id="niches"
+              placeholder="Enter niches (comma separated) e.g Web Development, Data Science"
             />
           </div>
 

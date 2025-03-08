@@ -8,7 +8,6 @@ const jobSchema = new Schema({
   },
   company: {
     type:String,
-    unique: true
   },
   description: String,
   deadline: Date,
