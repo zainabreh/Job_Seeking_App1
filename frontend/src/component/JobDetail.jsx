@@ -93,9 +93,17 @@ const JobDetail = () => {
             <br />
 
             {
-              key && user?.roles === 'user' ? <><Link to={`/apply/${singleJob._id}`}><button type="button" className="btn" style={{marginBottom:"30px",backgroundColor:"white"}}>Apply</button></Link></> : key && user?.roles === 'recuiter' || 'admin' ? "" : <div class="alert alert-danger" role="alert" style={{marginBottom:"30px",}}>
+              key && user?.roles === 'user' ? 
+              <>
+              <Link to={`/apply/${singleJob._id}`}><button type="button" className="btn" style={{marginBottom:"30px",backgroundColor:"white"}}>Apply</button></Link>
+              </> 
+              : 
+              key && user?.roles === 'recuiter' || 'admin' ?
+              <div class="alert alert-danger" role="alert" style={{marginBottom:"30px",}}>
               LogIn or Register to apply for the Job
             </div>
+              :
+             ""
             }
             
 

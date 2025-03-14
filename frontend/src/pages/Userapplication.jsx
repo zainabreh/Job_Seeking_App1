@@ -42,6 +42,8 @@ export default function Userapplication() {
       )
     : [];
 
+    console.log("appppppppppppppppp",filteredApplications);
+    
   if (filteredApplications.length === 0) {
     return (
       <h1

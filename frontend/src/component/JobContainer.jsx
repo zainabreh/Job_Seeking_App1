@@ -58,7 +58,7 @@ export default function JobContainer({ search }) {
   }, [data,products,search,category,page,location,status]);
 
   if (isLoading) {
-    return <div style={{textAlign:"center"}}>
+    return <div style={{textAlign:"center",marginBlock:"50px",marginInline:"50%"}}>
       <RingLoader color="rgba(32, 61, 213, 1)" />
       
       </div>
