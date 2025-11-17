@@ -5,7 +5,9 @@
   "main": "script.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon script.js"
+    "start": "node script.js",
+    "dev": "nodemon script.js",
+    "worker": "node worker.js"
   },
   "author": "zainab",
   "license": "MIT",
