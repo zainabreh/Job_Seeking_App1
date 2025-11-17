@@ -5,7 +5,7 @@ export const applicationApi = createApi({
     
     reducerPath:"applicationApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:8000",
+        baseUrl: process.env.VITE_BACKEND_URL,
         // mode:'cors',
         credentials:"include"
     }),    
