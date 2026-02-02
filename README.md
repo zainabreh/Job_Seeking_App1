@@ -150,5 +150,5 @@ createApplication: builder.mutation({
 
 ### Author
 
-**Zainab Rehman**
-**MERN Stack Developer**
+Zainab Rehman  
+MERN Stack Developer
