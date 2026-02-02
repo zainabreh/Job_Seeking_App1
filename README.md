@@ -12,6 +12,7 @@ The project focuses on **real-world backend engineering practices** including cr
 - Secure login & registration using JWT and HTTP-only cookies
 - Role-based access control (Job Seeker / Recruiter)
 - Protected routes on both frontend and backend
+- Email send for successfull registeration
 
 ### Job Management
 - Recruiters can create, update, and manage job postings
@@ -122,7 +123,7 @@ export const sendEmail = async ({ email, subject, message }) => {
 - Centralized error handling middleware
 - Cookie-based authentication for secure sessions
 
-### Example ofRTK Usage
+### Example of RTK Usage
 
 ```js
 createApplication: builder.mutation({
