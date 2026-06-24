@@ -1,0 +1,30 @@
+name: Newsletter Automation
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+
+  workflow_dispatch:
+
+jobs:
+  newsletter:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Dependencies
+        working-directory: backend
+        run: npm install
+
+      - name: Run Worker
+        working-directory: backend
+        run: node worker.js
+        env:
+          MONGO_URL: ${{ secrets.MONGO_URL }}
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}

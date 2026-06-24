@@ -1,12 +1,20 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import { newsLetterCron } from "./cron/newsLetterCron.js";
+import { sendNewsLetters } from "./cron/newsLetterCron.js";
 
 dotenv.config();
 
-mongoose.connect(process.env.MONGO_URL)
-.then(() => {
-    console.log("WORKER CONNECTED TO DB");
-    newsLetterCron(); // Start cron job
-})
-.catch(err => console.log("WORKER DB ERROR", err));
+try {
+    await mongoose.connect(process.env.MONGO_URL);
+
+    console.log("DB Connected");
+
+    await sendNewsLetters();
+
+    console.log("Finished");
+
+    process.exit(0);
+} catch (error) {
+    console.error(error);
+    process.exit(1);
+}
