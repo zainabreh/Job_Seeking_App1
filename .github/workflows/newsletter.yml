@@ -25,6 +25,6 @@ jobs:
         working-directory: backend
         run: node worker.js
         env:
-          MONGO_URL: ${{ secrets.MONGOURL }}
+          MONGOURL: ${{ secrets.MONGOURL }}
           SMTP_MAIL: ${{ secrets.SMTP_MAIL }}
           SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
