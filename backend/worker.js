@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import { sendNewsLetters } from "./cron/newsLetterCron.js";
+import { sendNewsLetters } from "./Automation/newsLetterCron.js";
 
 dotenv.config();
 

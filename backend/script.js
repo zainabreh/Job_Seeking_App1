@@ -11,7 +11,7 @@ import { errorHandler } from './middleware/error.middleware.js'
 import cookieParser from 'cookie-parser';
 import cors from "cors"
 import { v2 as cloudinary } from 'cloudinary';
-import { newsLetterCron } from './Automation/newsLetterCron.js'
+import { sendNewsLetters } from './Automation/newsLetterCron.js'
 
 const app = express()
 
@@ -21,15 +21,20 @@ const corsOptions = {
   };
   app.use(cors(corsOptions));
   
-  newsLetterCron()
-connectDB().then(()=>{
-    app.listen(process.env.PORT,()=>{
-        console.log(`Listning on port ${process.env.PORT}`);
-        
-    })
-})
+const startServer = async () => {
+  try {
+    await connectDB();
+    await sendNewsLetters();
 
+    app.listen(process.env.PORT, () => {
+      console.log(`Listening on port ${process.env.PORT}`);
+    });
+  } catch (error) {
+    console.error('Server startup failed:', error);
+  }
+};
 
+startServer();
 
 app.use(express.json({limit: '5000mb'}));
 app.use(express.urlencoded({limit: '5000mb'}));
