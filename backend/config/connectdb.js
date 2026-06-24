@@ -9,12 +9,10 @@ export const connectDB = async () => {
         mongoose.set('debug', true);
         mongoose.set('strictQuery', false);
         
-        const res = await mongoose.connect(`mongodb+srv://${process.env.DBUSER}:${process.env.DBPASSWORD}@cluster0.rep2s.mongodb.net/job-finding-app?retryWrites=true&w=majority&ssl=true`,  {
+        const res = await mongoose.connect(`${process.env.MONGOURL}`,  {
             tls: true,
-            tlsInsecure: true ,
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            // autoSelectFamily:false,
             serverSelectionTimeoutMS: 5000,
             family: 4
         });
