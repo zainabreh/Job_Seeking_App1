@@ -24,7 +24,8 @@ export const signup = async (req, res, next) => {
 
       await userModel.create(user);
 
-      sendEmail({
+      try{
+        await sendEmail({
         email,
         subject:"Welcome to Job Finding App",
         message:`Hi, ${firstname} Thank you for registering on Job Finder!
@@ -36,6 +37,10 @@ export const signup = async (req, res, next) => {
         Best Regards,
         Job Finder Team`
       });
+  }catch(err) {
+  console.log("Email error:", err);
+}
+
 
       res.json({
         success: true,
@@ -43,8 +48,9 @@ export const signup = async (req, res, next) => {
       });
     }
   } catch (error) {
-    next(new Error("Unable to SignUp,Try Again..."));
-  }
+  console.log(error);
+  next(error);
+}
 };
 
 export const login = async (req, res, next) => {
